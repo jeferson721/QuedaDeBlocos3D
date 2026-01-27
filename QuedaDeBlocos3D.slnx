@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="QuedaDeBlocos3D.vcxproj" />
+  <Project Path="QuedaDeBlocos3D.vcxproj" Id="78c0d88f-30cc-4a9d-a337-094a4ce25124" />
 </Solution>
