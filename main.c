@@ -1,8 +1,12 @@
 #include <stdio.h>
 #include "raylib.h"
 
+static void Bloco(Vector3 pos) {	
+    DrawCube(pos, 1.0f, 1.0f, 1.0f, BLUE);
+}
+
 int main(void)
-{   
+{
     const int screenWidth = 800;
     const int screenHeight = 450;
     InitWindow(screenWidth, screenHeight, "QuedaDeBlocos3D");
@@ -12,13 +16,16 @@ int main(void)
     camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
     camera.fovy = 45.0f;
     camera.projection = CAMERA_PERSPECTIVE;
+    DisableCursor(); 
     SetTargetFPS(60);
     while (!WindowShouldClose())
     {
+        UpdateCamera(&camera, CAMERA_FREE);
         BeginDrawing();
         ClearBackground(RAYWHITE);
         BeginMode3D(camera);
-        DrawCube((Vector3) { -4.0f, 0.0f, 2.0f }, 2.0f, 5.0f, 2.0f, RED);
+        Bloco((Vector3) { -4.0f, 0.0f, 2.0f });
+        DrawGrid(10, 1.0f);
         EndMode3D();
         DrawFPS(10, 10);
         EndDrawing();
