@@ -15,7 +15,7 @@ typedef struct {
 
 typedef struct {
     Bloco blocos[_blocos_tam_max_];
-	int quantidade;
+    uint16_t quantidade;
 } ListaDeBlocos;
 
 
