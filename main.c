@@ -22,9 +22,7 @@ static void DesenharBlocos(ListaDeBlocos* lista) {
 	}
 }
 
-int main(void)
-{
-
+static void TesteBloco() {
 	const int screenWidth = 800;
 	const int screenHeight = 450;
 	InitWindow(screenWidth, screenHeight, "QuedaDeBlocos3D");
@@ -38,7 +36,7 @@ int main(void)
 	SetTargetFPS(60);
 
 	ListaDeBlocos minhaLista = { 0 };
-		
+
 	AdicionarBloco(&minhaLista, (Vector3) { 0.5f, 0.5f, -0.5f });
 	AdicionarBloco(&minhaLista, (Vector3) { 0.5f, 1.5f, -0.5f });
 	AdicionarBloco(&minhaLista, (Vector3) { 0.5f, 2.5f, -0.5f });
@@ -59,5 +57,13 @@ int main(void)
 		if (IsKeyDown(KEY_ESCAPE))break;
 	}
 	CloseWindow();
+
+}
+
+
+
+int main(void)
+{
+	
 	return 0;
 }
