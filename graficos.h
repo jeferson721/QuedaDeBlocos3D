@@ -5,6 +5,7 @@
 #include "raylib.h"
 #include <stdlib.h>
 #include <stdint.h>
-// código do header
+
+void __Graficos__Iniciar(); // Inicia o motor gráfico.
 
 #endif
