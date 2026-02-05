@@ -105,3 +105,13 @@ void __Graficos__FinalizarDesenho3d(void) {
 		EndDrawing();              // Finaliza o desenho e apresenta na tela (framebuffer)
 	}		
 }
+
+void __Graficos__Fechar(void) {
+	if (!WindowShouldClose()) {
+		CloseWindow(); // Fechar janela
+	}
+}
+
+float __Graficos__EscalaDeTrabalho(void){
+	return Escala;
+}
