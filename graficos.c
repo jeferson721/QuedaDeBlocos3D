@@ -98,3 +98,10 @@ void __Graficos__IniciarDesenho3d(void) {
 	DrawSphereWires((Vector3) { 0, 0, 0 }, 1, 50, 50, BLACK);
 
 }
+
+void __Graficos__FinalizarDesenho3d(void) {
+	if (!WindowShouldClose()) {
+		EndMode3D();               // Finaliza o modo 3D e retorna para o modo 2D
+		EndDrawing();              // Finaliza o desenho e apresenta na tela (framebuffer)
+	}		
+}
