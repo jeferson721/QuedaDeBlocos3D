@@ -115,3 +115,4 @@ void __Graficos__Fechar(void) {
 float __Graficos__EscalaDeTrabalho(void){
 	return Escala;
 }
+

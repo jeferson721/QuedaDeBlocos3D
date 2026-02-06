@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+
 #define _blocos_tam_max_ 10
 
 typedef struct {
