@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="graficos.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="qdblocos.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
