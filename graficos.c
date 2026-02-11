@@ -3,7 +3,7 @@
 Camera3D CameraMain;                 // Câmera.	
 float SensibilidadeDeMovimento;      // Fator multiplicador do incremento no movimentos do teclado.		
 float SensibilidadeDoMouse;          // Fator multiplicador do incremento no movimentos da câmera.		
-float Escala;                        // Escala do objetos
+
 int LarguraDaJanela;                 // Largula da janela grafica
 int AlturaDaJanela;                  // Altura da janela grafica
 Vector3 Mira;                        // Posição da mira da camera	
@@ -21,8 +21,7 @@ void __Graficos__Iniciar() {
 	PhiOrbital = 1.570796325f;
 	ThetaOrbital = 1.570796325f;
 	NumPi = 3.141592653f;
-	NumPi2 = 6.283185307f;
-	Escala = 1;                                                          // Escala dos objetos
+	NumPi2 = 6.283185307f;	
 	SensibilidadeDeMovimento = 0.1f;								     // Sense do teclado
 	SensibilidadeDoMouse = 0.001f;									     // Sense do mouse
 	SetTargetFPS(100);												     // Frames por segundo
@@ -41,22 +40,22 @@ void __Graficos__IniciarDesenho3d(void) {
 
 	if (!WindowShouldClose()) {
 		// Posicionamento da mira.
-		if (IsKeyDown(KEY_KP_4)) { Mira.x -= Escala * SensibilidadeDeMovimento; }
-		if (IsKeyDown(KEY_KP_6)) { Mira.x += Escala * SensibilidadeDeMovimento; }
-		if (IsKeyDown(KEY_KP_8)) { Mira.y += Escala * SensibilidadeDeMovimento; }
-		if (IsKeyDown(KEY_KP_2)) { Mira.y -= Escala * SensibilidadeDeMovimento; }
-		if (IsKeyDown(KEY_KP_7)) { Mira.z -= Escala * SensibilidadeDeMovimento; }
-		if (IsKeyDown(KEY_KP_9)) { Mira.z += Escala * SensibilidadeDeMovimento; }
+		if (IsKeyDown(KEY_KP_4)) { Mira.x -=  SensibilidadeDeMovimento; }
+		if (IsKeyDown(KEY_KP_6)) { Mira.x +=  SensibilidadeDeMovimento; }
+		if (IsKeyDown(KEY_KP_8)) { Mira.y +=  SensibilidadeDeMovimento; }
+		if (IsKeyDown(KEY_KP_2)) { Mira.y -=  SensibilidadeDeMovimento; }
+		if (IsKeyDown(KEY_KP_7)) { Mira.z -=  SensibilidadeDeMovimento; }
+		if (IsKeyDown(KEY_KP_9)) { Mira.z +=  SensibilidadeDeMovimento; }
 
 		// Detecta informações do mouse
 		Vector2 mouseDelta = GetMouseDelta();
 		float wheelMovement = GetMouseWheelMove();
 
 		// Atualiza o valor do raio
-		if (wheelMovement > 0) { RaioOrbital -= Escala * SensibilidadeDeMovimento; }
-		else if (wheelMovement < 0) { RaioOrbital += Escala * SensibilidadeDeMovimento; }
-		if (IsKeyDown(KEY_KP_ADD))RaioOrbital -= Escala * SensibilidadeDeMovimento;
-		if (IsKeyDown(KEY_KP_SUBTRACT))RaioOrbital += Escala * SensibilidadeDeMovimento;
+		if (wheelMovement > 0) { RaioOrbital -=  SensibilidadeDeMovimento; }
+		else if (wheelMovement < 0) { RaioOrbital +=  SensibilidadeDeMovimento; }
+		if (IsKeyDown(KEY_KP_ADD))RaioOrbital -=  SensibilidadeDeMovimento;
+		if (IsKeyDown(KEY_KP_SUBTRACT))RaioOrbital +=  SensibilidadeDeMovimento;
 
 		// Ativa o controle orbital com botão direito
 		if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON)) { PhiOrbital += mouseDelta.x * SensibilidadeDoMouse; ThetaOrbital -= mouseDelta.y * SensibilidadeDoMouse; }
@@ -84,9 +83,9 @@ void __Graficos__IniciarDesenho3d(void) {
 		BeginMode3D(CameraMain);                                 // Finalizar desenho de shader personalizado (usar shader padrão)
 
 		// Eixos para referencia	
-		float posisao = 0.25f * Escala;							// Tamanho
-		float larg_comeco = 0.05f * Escala;						// Raio do começo
-		float larg_fim = 0.0001f * Escala;						// Raio do fim
+		float posisao = 0.25f ;							// Tamanho
+		float larg_comeco = 0.05f ;						// Raio do começo
+		float larg_fim = 0.0001f;						// Raio do fim
 		int detalhes = 15;									    // Nivel de detalhes			
 		DrawCylinderEx((Vector3) { Mira.x, Mira.y, Mira.z + posisao }, (Vector3) { Mira.x, Mira.y, Mira.z - posisao }, larg_comeco, larg_fim, detalhes, BLUE);	    // EIXO Z  
 		DrawCylinderEx((Vector3) { Mira.x, Mira.y + posisao, Mira.z }, (Vector3) { Mira.x, Mira.y - posisao, Mira.z }, larg_comeco, larg_fim, detalhes, GREEN);	    // EIXO	Y 
@@ -112,7 +111,4 @@ void __Graficos__Fechar(void) {
 	}
 }
 
-float __Graficos__EscalaDeTrabalho(void){
-	return Escala;
-}
 
