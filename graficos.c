@@ -6,7 +6,7 @@ float SensibilidadeDoMouse;          // Fator multiplicador do incremento no mov
 
 int LarguraDaJanela;                 // Largula da janela grafica
 int AlturaDaJanela;                  // Altura da janela grafica
-Vector3 Mira;                        // Posição da mira da camera	
+
 float RaioOrbital;                   // Raio do orbital da camera
 float PhiOrbital;                    // Cordenada esferica phi para o orbital da camera
 float ThetaOrbital;                  // Cordenada esferica theta para o orbital da camera		
@@ -16,8 +16,7 @@ float NumPi2;                        // Numero de pi multiplicado por 2
 void __Graficos__Iniciar() {
 	LarguraDaJanela = 758;
 	AlturaDaJanela = 758;
-	Mira = (Vector3){ 0,0,0 };
-	RaioOrbital = 5;
+	RaioOrbital = 30;
 	PhiOrbital = 1.570796325f;
 	ThetaOrbital = 1.570796325f;
 	NumPi = 3.141592653f;
@@ -38,15 +37,7 @@ void __Graficos__IniciarDesenho3d(void) {
 	DrawText("|  QUEDA DE BLOCOS  V:4.00 | POR: JEFERSON  |", 10, 10, 10, BLACK); // Desenha texto na tela
 	DrawText(TextFormat(" FPS: %d", GetFPS()), 10, 30, 10, PINK);                 // Mostra o FPS na tela
 
-	if (!WindowShouldClose()) {
-		// Posicionamento da mira.
-		if (IsKeyDown(KEY_KP_4)) { Mira.x -=  SensibilidadeDeMovimento; }
-		if (IsKeyDown(KEY_KP_6)) { Mira.x +=  SensibilidadeDeMovimento; }
-		if (IsKeyDown(KEY_KP_8)) { Mira.y +=  SensibilidadeDeMovimento; }
-		if (IsKeyDown(KEY_KP_2)) { Mira.y -=  SensibilidadeDeMovimento; }
-		if (IsKeyDown(KEY_KP_7)) { Mira.z -=  SensibilidadeDeMovimento; }
-		if (IsKeyDown(KEY_KP_9)) { Mira.z +=  SensibilidadeDeMovimento; }
-
+	if (!WindowShouldClose()) {		
 		// Detecta informações do mouse
 		Vector2 mouseDelta = GetMouseDelta();
 		float wheelMovement = GetMouseWheelMove();
@@ -73,8 +64,8 @@ void __Graficos__IniciarDesenho3d(void) {
 		float zesf = RaioOrbital * sinf(ThetaOrbital) * sinf(PhiOrbital);
 
 		// Define a posição da câmera
-		CameraMain.position = (Vector3){ (xesf + Mira.x),(yesf + Mira.y) ,(zesf + Mira.z) };    // Atualiza posição da câmera
-		CameraMain.target = Mira;                                                               // Mantém a câmera sempre apontando				
+		CameraMain.position = (Vector3){xesf,yesf,zesf};    // Atualiza posição da câmera
+		CameraMain.target = (Vector3){ 0.0f, 0.0f,0.0f };		
 		CameraMain.up = (Vector3){ 0.0f, 1.0f,0.0f };                                           // Define eixo Vertical	
 
 		// Desenha
@@ -87,14 +78,14 @@ void __Graficos__IniciarDesenho3d(void) {
 		float larg_comeco = 0.05f ;						// Raio do começo
 		float larg_fim = 0.0001f;						// Raio do fim
 		int detalhes = 15;									    // Nivel de detalhes			
-		DrawCylinderEx((Vector3) { Mira.x, Mira.y, Mira.z + posisao }, (Vector3) { Mira.x, Mira.y, Mira.z - posisao }, larg_comeco, larg_fim, detalhes, BLUE);	    // EIXO Z  
-		DrawCylinderEx((Vector3) { Mira.x, Mira.y + posisao, Mira.z }, (Vector3) { Mira.x, Mira.y - posisao, Mira.z }, larg_comeco, larg_fim, detalhes, GREEN);	    // EIXO	Y 
-		DrawCylinderEx((Vector3) { Mira.x + posisao, Mira.y, Mira.z }, (Vector3) { Mira.x - posisao, Mira.y, Mira.z }, larg_comeco, larg_fim, detalhes, RED);	    // EIXO X 
+		DrawCylinderEx((Vector3) { 0.0f, 0.0f, posisao }, (Vector3) { 0.0f, 0.0f, posisao }, larg_comeco, larg_fim, detalhes, BLUE);	    // EIXO Z  
+		DrawCylinderEx((Vector3) { 0.0f,  posisao,  0.0f }, (Vector3) { 0.0f,  posisao, 0.0f }, larg_comeco, larg_fim, detalhes, GREEN);	    // EIXO	Y 
+		DrawCylinderEx((Vector3) { posisao, 0.0f, 0.0f }, (Vector3) { posisao, 0.0f, 0.0f }, larg_comeco, larg_fim, detalhes, RED);	    // EIXO X 
 
 	}
 	// Desenha uma grade para dar uma melhor noção de espaço
 	DrawGrid(10, 1.0f);
-	DrawSphereWires((Vector3) { 0, 0, 0 }, 1, 50, 50, BLACK);
+	//DrawSphereWires((Vector3) { 0, 0, 0 }, 1, 50, 50, BLACK);
 
 }
 
