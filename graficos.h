@@ -13,5 +13,7 @@ void __Graficos__Iniciar(); // Inicia o motor gráfico.
 void __Graficos__IniciarDesenho3d(void); // Inicia o processo de desenho em 3d.
 void __Graficos__FinalizarDesenho3d(void); // Finaliza o processo de desenho em 3d.
 void __Graficos__Fechar(); // Finaliza o motor gráfico.
+int __Graficos__Roda(); // Roda o motor gráfico, retornando 0 para continuar rodando e 1 para finalizar o programa.
+
 
 #endif

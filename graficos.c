@@ -18,7 +18,7 @@ void __Graficos__Iniciar() {
 	AlturaDaJanela = 758;
 	RaioOrbital = 30;
 	PhiOrbital = 1.570796325f;
-	ThetaOrbital = 1.570796325f;
+	ThetaOrbital = 1.20f;
 	NumPi = 3.141592653f;
 	NumPi2 = 6.283185307f;	
 	SensibilidadeDeMovimento = 0.1f;								     // Sense do teclado
@@ -100,6 +100,11 @@ void __Graficos__Fechar(void) {
 	if (!WindowShouldClose()) {
 		CloseWindow(); // Fechar janela
 	}
+}
+
+
+int __Graficos__Roda() {
+	return !WindowShouldClose();
 }
 
 
