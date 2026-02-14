@@ -64,8 +64,8 @@ void __Graficos__IniciarDesenho3d(void) {
 		float zesf = RaioOrbital * sinf(ThetaOrbital) * sinf(PhiOrbital);
 
 		// Define a posição da câmera
-		CameraMain.position = (Vector3){xesf,yesf,zesf};    // Atualiza posição da câmera
-		CameraMain.target = (Vector3){ 0.0f, 0.0f,0.0f };		
+		CameraMain.position = (Vector3){xesf,yesf+12.00f,zesf};    // Atualiza posição da câmera
+		CameraMain.target = (Vector3){ 0.0f, 12.00f,0.0f };
 		CameraMain.up = (Vector3){ 0.0f, 1.0f,0.0f };                                           // Define eixo Vertical	
 
 		// Desenha

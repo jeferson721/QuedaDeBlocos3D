@@ -8,7 +8,7 @@
 #include <stdint.h>
 
 
-#define _blocos_tam_max_ 10
+#define _blocos_tam_max_ 1000
 
 typedef struct {
     Vector3 position;
@@ -19,5 +19,7 @@ typedef struct {
     uint16_t quantidade;
 } ListaDeBlocos;
 
+int AdicionarBloco(ListaDeBlocos* lista, Vector3 posicao); // Adiciona um bloco à lista, retornando 1 se bem-sucedido ou 0 se a lista estiver cheia.
+void DesenharBlocos(ListaDeBlocos* lista); // Desenha os blocos na tela usando as funções de desenho do Raylib.
 
 #endif

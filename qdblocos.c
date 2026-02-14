@@ -1,6 +1,6 @@
 #include "qdblocos.h"
 
-static int AdicionarBloco(ListaDeBlocos* lista, Vector3 posicao) {
+ int AdicionarBloco(ListaDeBlocos* lista, Vector3 posicao) {
 	if (lista->quantidade >= _blocos_tam_max_)return 0;
 
 	Bloco novoBloco = { 0 };
@@ -12,13 +12,17 @@ static int AdicionarBloco(ListaDeBlocos* lista, Vector3 posicao) {
 	return 1;
 }
 
-static void DesenharBlocos(ListaDeBlocos* lista) {
+ void DesenharBlocos(ListaDeBlocos* lista) {
 	if (lista == NULL || lista->quantidade == 0)return;
 
 	for (uint16_t i = 0; i < lista->quantidade; i++) {
 		Bloco* bloco = &lista->blocos[i];
 		DrawCube(bloco->position, 1.0f, 1.0f, 1.0f, BLUE);
 		DrawCubeWires(bloco->position, 1.0f, 1.0f, 1.0f, BLACK);
+		/*
+		DrawCube((Vector3){ 0.50f, 0.50f, -0.50f }, 1.0f, 1.0f, 1.0f, BLUE);
+		DrawCubeWires((Vector3){ 0.50f, 0.50f, -0.50f }, 1.0f, 1.0f, 1.0f, BLACK);
+		*/
 	}
 }
 
