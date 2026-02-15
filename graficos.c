@@ -21,12 +21,14 @@ void __Graficos__Iniciar() {
 	ThetaOrbital = 1.20f;
 	NumPi = 3.141592653f;
 	NumPi2 = 6.283185307f;	
-	SensibilidadeDeMovimento = 0.1f;								     // Sense do teclado
+	SensibilidadeDeMovimento = 1.5f;								     // Sense do teclado
 	SensibilidadeDoMouse = 0.001f;									     // Sense do mouse
 	SetTargetFPS(100);												     // Frames por segundo
+	SetConfigFlags(FLAG_MSAA_4X_HINT);								     // Suavização de bordas	
 	SetConfigFlags(FLAG_WINDOW_RESIZABLE);								 // Frag janela redimensionavel
 	InitWindow(LarguraDaJanela, AlturaDaJanela, "Queda De Blocos em 3D");// Dados da janela
 	SetTraceLogLevel(LOG_ALL);                                           // Define o nível de log para exibir TODAS as mensagens LOG_DEBUG   LOG_ERROR   LOG_NONE
+	
 	Camera3D camedssdra = { 0 };										 // Nova camera
 	CameraMain = camedssdra;										     // Camera global
 	CameraMain.fovy = 45.0f;										     // Abertura da lente
@@ -45,8 +47,8 @@ void __Graficos__IniciarDesenho3d(void) {
 		// Atualiza o valor do raio
 		if (wheelMovement > 0) { RaioOrbital -=  SensibilidadeDeMovimento; }
 		else if (wheelMovement < 0) { RaioOrbital +=  SensibilidadeDeMovimento; }
-		if (IsKeyDown(KEY_KP_ADD))RaioOrbital -=  SensibilidadeDeMovimento;
-		if (IsKeyDown(KEY_KP_SUBTRACT))RaioOrbital +=  SensibilidadeDeMovimento;
+		if (IsKeyDown(KEY_KP_ADD))RaioOrbital -=  SensibilidadeDeMovimento/10;
+		if (IsKeyDown(KEY_KP_SUBTRACT))RaioOrbital +=  SensibilidadeDeMovimento/10;
 
 		// Ativa o controle orbital com botão direito
 		if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON)) { PhiOrbital += mouseDelta.x * SensibilidadeDoMouse; ThetaOrbital -= mouseDelta.y * SensibilidadeDoMouse; }
@@ -64,8 +66,8 @@ void __Graficos__IniciarDesenho3d(void) {
 		float zesf = RaioOrbital * sinf(ThetaOrbital) * sinf(PhiOrbital);
 
 		// Define a posição da câmera
-		CameraMain.position = (Vector3){xesf,yesf+12.00f,zesf};    // Atualiza posição da câmera
-		CameraMain.target = (Vector3){ 0.0f, 12.00f,0.0f };
+		CameraMain.position = (Vector3){xesf,yesf,zesf};    // Atualiza posição da câmera
+		CameraMain.target = (Vector3){ 0.0f, 0.00f,0.0f };
 		CameraMain.up = (Vector3){ 0.0f, 1.0f,0.0f };                                           // Define eixo Vertical	
 
 		// Desenha
