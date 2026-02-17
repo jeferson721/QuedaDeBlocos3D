@@ -16,7 +16,7 @@ float NumPi2;                        // Numero de pi multiplicado por 2
 void __Graficos__Iniciar() {
 	LarguraDaJanela = 758;
 	AlturaDaJanela = 758;
-	RaioOrbital = 30;
+	RaioOrbital = 55;
 	PhiOrbital = 1.570796325f;
 	ThetaOrbital = 1.20f;
 	NumPi = 3.141592653f;
@@ -36,7 +36,7 @@ void __Graficos__Iniciar() {
 }
 
 void __Graficos__IniciarDesenho3d(void) {
-	DrawText("|  QUEDA DE BLOCOS  V:4.00 | POR: JEFERSON  |", 10, 10, 10, BLACK); // Desenha texto na tela
+	DrawText("|  QUEDA DE BLOCOS  V:1.00 | POR: JEFERSON  |", 10, 10, 10, BLACK); // Desenha texto na tela
 	DrawText(TextFormat(" FPS: %d", GetFPS()), 10, 30, 10, PINK);                 // Mostra o FPS na tela
 
 	if (!WindowShouldClose()) {		
