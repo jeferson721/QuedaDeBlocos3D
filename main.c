@@ -1,18 +1,19 @@
 ﻿#include "qdblocos.h"
 #include "graficos.h"
 
-uint8_t time;
+uint8_t Tempo;
+
+float FatorDeQueda = 1.00f;
 
 static void Animar(ListaDeBlocos* lista) {
-	if (lista == NULL || lista->quantidade == 0 || time != 0)return;
+	if (lista == NULL || lista->quantidade == 0 || Tempo != 0)return;
 
 	for (uint16_t i = 0; i < lista->quantidade; i++) {
 
 		Bloco* bloco = &lista->blocos[i];
-		if (bloco->position.y > 0.0f) {
-			bloco->position.y -= 1.0f; // Velocidade de queda
+		if (bloco->position.y > 0.50f) {
+			bloco->position.y -= FatorDeQueda; 
 		}
-
 	}
 }
 
@@ -20,7 +21,7 @@ static void Animar(ListaDeBlocos* lista) {
 int main(void)
 {
 	__Graficos__Iniciar();
-	time = 0;
+	Tempo = 0;
 
 	ListaDeBlocos minhaLista = { 0 };
 
@@ -38,20 +39,22 @@ int main(void)
 	//	}
 	//}
 
-	AdicionarBloco(&minhaLista, (Vector3) { 0.0f, 19.0f, 0.0f });
+	AdicionarBloco(&minhaLista, (Vector3) { 0.0f, 19.50f, 0.00f});
 
 
 
 	while (__Graficos__Roda()) {
 		__Graficos__IniciarDesenho3d();
-		DesenharBlocos(&minhaLista);
+		DesenharBlocos(&minhaLista);		
 		Animar(&minhaLista);
 		if (IsKeyDown(KEY_ESCAPE))break;
+		if (IsKeyDown(KEY_E))
+		{
+
+		}
 		__Graficos__FinalizarDesenho3d();
+		Tempo = Tempo == 100 ? 0 : Tempo + 1;
 
-
-		time++;
-		if (time == 100)time = 0;
 	}
 
 	__Graficos__Fechar();
