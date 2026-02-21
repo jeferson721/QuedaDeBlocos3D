@@ -2,8 +2,9 @@
 #include "graficos.h"
 
 uint8_t Tempo;
-
 float FatorDeQueda = 1.00f;
+ListaDeBlocos Peçapai = { 0 };
+
 
 static void Animar(ListaDeBlocos* lista) {
 	if (lista == NULL || lista->quantidade == 0 || Tempo != 0)return;
@@ -23,13 +24,12 @@ int main(void)
 	__Graficos__Iniciar();
 	Tempo = 0;
 
-	ListaDeBlocos minhaLista = { 0 };
+	//ListaDeBlocos minhaLista = { 0 };
 
-	Vector3 pin = { -3.00f, 0.50f, 3.00f };
+	//Vector3 pin = { -3.00f, 0.50f, 3.00f };
 	//uint16_t altura = 1;//19 
 	//uint16_t largura = 7;//7
 	//uint16_t comprimento = 7;//7
-
 	//for (uint16_t y = 0;y < altura; y++){
 	//	for (size_t x = 0; x < largura; x++){
 	//		for (size_t z = 0; z < comprimento; z++){
@@ -39,14 +39,14 @@ int main(void)
 	//	}
 	//}
 
-	AdicionarBloco(&minhaLista, (Vector3) { 0.0f, 19.50f, 0.00f});
+	AdicionarBloco(&Peçapai, (Vector3) { 0.0f, 19.50f, 0.00f});
 
 
 
 	while (__Graficos__Roda()) {
 		__Graficos__IniciarDesenho3d();
-		DesenharBlocos(&minhaLista);		
-		Animar(&minhaLista);
+		DesenharBlocos(&Peçapai);
+		Animar(&Peçapai);
 		if (IsKeyDown(KEY_ESCAPE))break;
 		if (IsKeyDown(KEY_E))
 		{

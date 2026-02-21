@@ -21,5 +21,5 @@ typedef struct {
 
 int AdicionarBloco(ListaDeBlocos* lista, Vector3 posicao); // Adiciona um bloco à lista, retornando 1 se bem-sucedido ou 0 se a lista estiver cheia.
 void DesenharBlocos(ListaDeBlocos* lista); // Desenha os blocos na tela usando as funções de desenho do Raylib.
-
+void LimparLista(ListaDeBlocos* lista); // Limpa a lista de blocos, definindo a quantidade para 0 e zerando os blocos.
 #endif
