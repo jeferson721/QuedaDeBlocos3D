@@ -29,13 +29,16 @@ static void Animar(ListaDeBlocos* lista) {
 	
 }
 
+static void AtualizarTempo() {
+	InclementoDoHorario = MicroTempo / Aceleração;
+	ProxHorarioAtualizacao = InclementoDoHorario;
+}
 
 int main(void) {
 	__Graficos__Iniciar();
 	AdicionarBloco(&Peçapai, (Vector3) { 0.0f, 19.50f, 0.00f });
 
-	InclementoDoHorario = MicroTempo / Aceleração;
-	ProxHorarioAtualizacao = InclementoDoHorario;
+	AtualizarTempo();
 
 	while (__Graficos__Roda()) {
 		__Graficos__IniciarDesenho3d();
@@ -44,9 +47,8 @@ int main(void) {
 		if (IsKeyDown(KEY_ESCAPE))break;
 		if (IsKeyDown(KEY_E))
 		{
-			InclementoDoHorario = 100;
-			InclementoDoHorario = MicroTempo / Aceleração;
-			ProxHorarioAtualizacao = InclementoDoHorario;
+			Aceleração = 100;
+			AtualizarTempo();
 		}
 		__Graficos__FinalizarDesenho3d();
 		if (Tempo == MicroTempo) {
