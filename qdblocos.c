@@ -33,3 +33,24 @@ void LimparLista(ListaDeBlocos* lista) {
 	}
 	lista->quantidade = 0;
 }
+
+void Animar(ListaDeBlocos* lista) {
+	if (lista == NULL || lista->quantidade == 0)return;
+
+	if (Tempo == ProxHorarioAtualizacao) {
+
+		for (uint16_t i = 0; i < lista->quantidade; i++) {
+
+			Bloco* bloco = &lista->blocos[i];
+			if (bloco->position.y > 0.50f) {
+				bloco->position.y -= DecrementoDeQueda;
+			}
+		}
+		ProxHorarioAtualizacao += InclementoDoHorario;
+	}
+}
+
+void AtualizarTempo() {
+	InclementoDoHorario = MicroTempo / Aceleração;
+	ProxHorarioAtualizacao = InclementoDoHorario;
+}
