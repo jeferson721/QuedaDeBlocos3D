@@ -18,11 +18,7 @@ void DesenharBlocos(ListaDeBlocos* lista) {
 	for (uint16_t i = 0; i < lista->quantidade; i++) {
 		Bloco* bloco = &lista->blocos[i];
 		DrawCube(bloco->position, 1.0f, 1.0f, 1.0f, BLUE);
-		DrawCubeWires(bloco->position, 1.0f, 1.0f, 1.0f, BLACK);
-		/*
-		DrawCube((Vector3){ 0.50f, 0.50f, -0.50f }, 1.0f, 1.0f, 1.0f, BLUE);
-		DrawCubeWires((Vector3){ 0.50f, 0.50f, -0.50f }, 1.0f, 1.0f, 1.0f, BLACK);
-		*/
+		DrawCubeWires(bloco->position, 1.0f, 1.0f, 1.0f, BLACK);	
 	}
 }
 
@@ -33,3 +29,4 @@ void LimparLista(ListaDeBlocos* lista) {
 	}
 	lista->quantidade = 0;
 }
+

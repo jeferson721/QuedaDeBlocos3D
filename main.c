@@ -40,13 +40,19 @@ int main(void) {
 		__Graficos__IniciarDesenho3d();
 		DesenharBlocos(&Peçapai);
 		Animar(&Peçapai);
+		
 		if (IsKeyDown(KEY_ESCAPE))break;
-
-		if (IsKeyDown(KEY_E)){
-			Aceleração = 100;
+		
+		if (IsKeyUp(KEY_S)){
+			Aceleração = AceleraçãoPadrão;
 			AtualizarTempo();
 		}
-
+		
+		if (IsKeyPressed(KEY_S)){
+			Aceleração = AceleraçãoPadrão*20;
+			AtualizarTempo();
+		}
+	
 		__Graficos__FinalizarDesenho3d();
 		if (Tempo == MicroTempo) {		
 			Tempo = 0;
