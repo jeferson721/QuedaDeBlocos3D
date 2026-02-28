@@ -30,6 +30,19 @@ static void AtualizarTempo() {
 	ProxHorarioAtualizacao = InclementoDoHorario;
 }
 
+static void AddVetor(ListaDeBlocos* lista, Vector3 add) {
+	if (lista == NULL || lista->quantidade == 0)return;
+	
+		for (uint16_t i = 0; i < lista->quantidade; i++) {
+			Bloco* bloco = &lista->blocos[i];	
+			bloco->position.x += add.x;
+			bloco->position.y += add.y;
+			bloco->position.z += add.z;
+		}
+	
+}
+
+
 int main(void) {
 	__Graficos__Iniciar();
 	AdicionarBloco(&Peçapai, (Vector3) { 0.0f, 19.50f, 0.00f });
@@ -52,7 +65,13 @@ int main(void) {
 			Aceleração = AceleraçãoPadrão*20;
 			AtualizarTempo();
 		}
-	
+
+		if (IsKeyPressed(KEY_A)) {
+			AddVetor(&Peçapai, (Vector3) { -1.00f, 0.00f, 0.00f });
+		}
+		if (IsKeyPressed(KEY_D)) {
+			AddVetor(&Peçapai, (Vector3) { 1.00f, 0.00f, 0.00f });
+		}
 		__Graficos__FinalizarDesenho3d();
 		if (Tempo == MicroTempo) {		
 			Tempo = 0;
