@@ -1,6 +1,15 @@
 #include "qdblocos.h"
 
-int AdicionarBloco(ListaDeBlocos* lista, Vector3 posicao) {
+int MicroTempo;
+int Tempo;
+int AceleracaoPadrao;
+int Aceleracao;
+int ProxHorarioAtualizacao;
+int InclementoDoHorario;
+float DecrementoDeQueda;
+ListaDeBlocos ComponentePai;
+
+static int AdicionarBloco(ListaDeBlocos* lista, Vector3 posicao) {
 	if (lista->quantidade >= _blocos_tam_max_)return 0;
 
 	Bloco novoBloco = { 0 };
@@ -12,7 +21,7 @@ int AdicionarBloco(ListaDeBlocos* lista, Vector3 posicao) {
 	return 1;
 }
 
-void DesenharBlocos(ListaDeBlocos* lista) {
+static void DesenharBlocos(ListaDeBlocos* lista) {
 	if (lista == NULL || lista->quantidade == 0)return;
 
 	for (uint16_t i = 0; i < lista->quantidade; i++) {
@@ -22,14 +31,13 @@ void DesenharBlocos(ListaDeBlocos* lista) {
 	}
 }
 
-void LimparLista(ListaDeBlocos* lista) {
+static void LimparLista(ListaDeBlocos* lista) {
 	if (lista == NULL || lista->quantidade == 0)return;
 	for (uint16_t i = 0; i < lista->quantidade; i++) { 
 		lista->blocos[i] = (Bloco){ 0 }; 
 	}
 	lista->quantidade = 0;
 }
-
 
 static void Animar(ListaDeBlocos* lista) {
 	if (lista == NULL || lista->quantidade == 0)return;
@@ -47,7 +55,7 @@ static void Animar(ListaDeBlocos* lista) {
 }
 
 static void AtualizarTempo() {
-	InclementoDoHorario = MicroTempo / Aceleração;
+	InclementoDoHorario = MicroTempo / Aceleracao;
 	ProxHorarioAtualizacao = InclementoDoHorario;
 }
 
@@ -63,34 +71,41 @@ static void AddVetor(ListaDeBlocos* lista, Vector3 add) {
 
 }
 
-
 void __QdBlocos__Iniciar() {
-	AdicionarBloco(&Peçapai, (Vector3) { 0.0f, 19.50f, 0.00f });
-	Aceleração = AceleraçãoPadrão;
+
+	 MicroTempo = 100;
+	 Tempo = 0;
+	 AceleracaoPadrao = 1;
+	 Aceleracao;
+	 ProxHorarioAtualizacao;
+	 InclementoDoHorario;
+	 DecrementoDeQueda = 1.00f;
+	 //ComponentePai = { 0 };
+
+	AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f });
+	Aceleracao = AceleracaoPadrao;
 	AtualizarTempo();
 }
 
 void __QdBlocos__Passo() {
-	DesenharBlocos(&Peçapai);
-	Animar(&Peçapai);
-
-	
+	DesenharBlocos(&ComponentePai);
+	Animar(&ComponentePai);	
 
 	if (IsKeyUp(KEY_S)) {
-		Aceleração = AceleraçãoPadrão;
+		Aceleracao = AceleracaoPadrao;
 		AtualizarTempo();
 	}
 
 	if (IsKeyPressed(KEY_S)) {
-		Aceleração = AceleraçãoPadrão * 20;
+		Aceleracao = AceleracaoPadrao * 20;
 		AtualizarTempo();
 	}
 
 	if (IsKeyPressed(KEY_A)) {
-		AddVetor(&Peçapai, (Vector3) { -1.00f, 0.00f, 0.00f });
+		AddVetor(&ComponentePai, (Vector3) { -1.00f, 0.00f, 0.00f });
 	}
 	if (IsKeyPressed(KEY_D)) {
-		AddVetor(&Peçapai, (Vector3) { 1.00f, 0.00f, 0.00f });
+		AddVetor(&ComponentePai, (Vector3) { 1.00f, 0.00f, 0.00f });
 	}
 
 	if (Tempo == MicroTempo) {
