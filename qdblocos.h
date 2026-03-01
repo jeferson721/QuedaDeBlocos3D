@@ -20,7 +20,14 @@ typedef struct {
 } ListaDeBlocos;
 
 
-
+uint8_t MicroTempo = 100;
+uint8_t Tempo = 0;
+uint8_t AceleraçãoPadrão = 1;
+uint8_t Aceleração;
+uint8_t ProxHorarioAtualizacao;
+uint8_t InclementoDoHorario;
+float DecrementoDeQueda = 1.00f;
+ListaDeBlocos Peçapai = { 0 };
 
 int AdicionarBloco(ListaDeBlocos* lista, Vector3 posicao); // Adiciona um bloco à lista, retornando 1 se bem-sucedido ou 0 se a lista estiver cheia.
 void DesenharBlocos(ListaDeBlocos* lista); // Desenha os blocos na tela usando as funções de desenho do Raylib.
