@@ -8,6 +8,7 @@ int ProxHorarioAtualizacao;
 int InclementoDoHorario;
 float DecrementoDeQueda;
 ListaDeBlocos ComponentePai;
+Color CorDoBloco;
 
 static int AdicionarBloco(ListaDeBlocos* lista, Vector3 posicao) {
 	if (lista->quantidade >= _blocos_tam_max_)return 0;
@@ -26,7 +27,7 @@ static void DesenharBlocos(ListaDeBlocos* lista) {
 
 	for (uint16_t i = 0; i < lista->quantidade; i++) {
 		Bloco* bloco = &lista->blocos[i];
-		DrawCube(bloco->position, 1.0f, 1.0f, 1.0f, BLUE);
+		DrawCube(bloco->position, 1.0f, 1.0f, 1.0f, CorDoBloco);
 		DrawCubeWires(bloco->position, 1.0f, 1.0f, 1.0f, BLACK);	
 	}
 }
@@ -71,6 +72,20 @@ static void AddVetor(ListaDeBlocos* lista, Vector3 add) {
 
 }
 
+static void EspelharComponentePai(ListaDeBlocos* lista){
+	if (lista == NULL || lista->quantidade == 0)return;
+
+	for (uint16_t i = 0; i < lista->quantidade; i++) {
+		Bloco* bloco = &lista->blocos[i];
+		if (bloco->position.y == 0.50f) { continue; }
+		Vector3 posicaoOriginal = (Vector3){ bloco->position.x, 0.5f,bloco->position.z };		
+		DrawCubeWires(posicaoOriginal, 1.0f, 1.0f, 1.0f, CorDoBloco);
+	}
+}
+
+
+// --- Funções públicas ---
+
 void __QdBlocos__Iniciar() {
 
 	 MicroTempo = 100;
@@ -81,6 +96,7 @@ void __QdBlocos__Iniciar() {
 	 InclementoDoHorario;
 	 DecrementoDeQueda = 1.00f;
 	 //ComponentePai = { 0 };
+	 CorDoBloco = BLUE;
 
 	AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f });
 	Aceleracao = AceleracaoPadrao;
@@ -89,6 +105,7 @@ void __QdBlocos__Iniciar() {
 
 void __QdBlocos__Passo() {
 	DesenharBlocos(&ComponentePai);
+	EspelharComponentePai(&ComponentePai);
 	Animar(&ComponentePai);	
 
 	if (IsKeyUp(KEY_S)) {
