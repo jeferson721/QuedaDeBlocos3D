@@ -40,19 +40,28 @@ static void LimparLista(ListaDeBlocos* lista) {
 	lista->quantidade = 0;
 }
 
-static void Animar(ListaDeBlocos* lista) {
-	if (lista == NULL || lista->quantidade == 0)return;
+static int Animar(ListaDeBlocos* lista) {
+	int retorno =0;
+
+	if (lista == NULL || lista->quantidade == 0)return retorno;
 
 	if (Tempo == ProxHorarioAtualizacao) {
 		for (uint16_t i = 0; i < lista->quantidade; i++) {
-
 			Bloco* bloco = &lista->blocos[i];
-			if (bloco->position.y > 0.50f) {
-				bloco->position.y -= DecrementoDeQueda;
-			}
+			if (bloco->position.y <= 0.55f) { retorno = 2; return retorno;}
+		}	
+	}
+
+	if (Tempo == ProxHorarioAtualizacao) {
+		for (uint16_t i = 0; i < lista->quantidade; i++) {
+			Bloco* bloco = &lista->blocos[i];			
+			bloco->position.y -= DecrementoDeQueda;			
 		}
 		ProxHorarioAtualizacao += InclementoDoHorario;
+		retorno = 1;
 	}
+	
+	return retorno;
 }
 
 static void AtualizarTempo() {
@@ -106,7 +115,14 @@ void __QdBlocos__Iniciar() {
 void __QdBlocos__Passo() {
 	DesenharBlocos(&ComponentePai);
 	EspelharComponentePai(&ComponentePai);
-	Animar(&ComponentePai);	
+
+
+	int animado=Animar(&ComponentePai);	
+	printf(" animado: %d\n", animado);
+	if (animado==2)
+	{
+		printf(" ###############\n ###############\n ###############\n ###############\n ###############\n ###############\n ###############\n");
+	}
 
 	if (IsKeyUp(KEY_S)) {
 		Aceleracao = AceleracaoPadrao;
