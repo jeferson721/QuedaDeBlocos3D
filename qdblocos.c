@@ -8,6 +8,7 @@ int ProxHorarioAtualizacao;
 int InclementoDoHorario;
 float DecrementoDeQueda;
 ListaDeBlocos ComponentePai;
+ListaDeBlocos ComponenteCenario;
 Color CorDoBloco;
 
 static int AdicionarBloco(ListaDeBlocos* lista, Vector3 posicao) {
@@ -92,6 +93,13 @@ static void EspelharComponentePai(ListaDeBlocos* lista){
 	}
 }
 
+static void CopiarParaOutraLista(ListaDeBlocos* origem, ListaDeBlocos* destino) {
+	if (origem == NULL || destino == NULL)return;
+	for (uint16_t i = 0; i < origem->quantidade; i++) {
+		destino->blocos[i] = origem->blocos[i];
+	}
+	destino->quantidade += origem->quantidade;
+}
 
 // --- Funções públicas ---
 
@@ -114,14 +122,20 @@ void __QdBlocos__Iniciar() {
 
 void __QdBlocos__Passo() {
 	DesenharBlocos(&ComponentePai);
+	DesenharBlocos(&ComponenteCenario);
+
 	EspelharComponentePai(&ComponentePai);
 
-
 	int animado=Animar(&ComponentePai);	
-	printf(" animado: %d\n", animado);
-	if (animado==2)
-	{
+	//printf(" animado: %d\n", animado);
+
+	if (animado==2)	{
 		printf(" ###############\n ###############\n ###############\n ###############\n ###############\n ###############\n ###############\n");
+		CopiarParaOutraLista(&ComponentePai, &ComponenteCenario);
+		LimparLista(&ComponentePai);
+		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f });
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f });
+
 	}
 
 	if (IsKeyUp(KEY_S)) {
