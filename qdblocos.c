@@ -96,7 +96,7 @@ static void EspelharComponentePai(ListaDeBlocos* lista){
 static void CopiarParaOutraLista(ListaDeBlocos* origem, ListaDeBlocos* destino) {
 	if (origem == NULL || destino == NULL)return;
 	for (uint16_t i = 0; i < origem->quantidade; i++) {
-		destino->blocos[i] = origem->blocos[i];
+		destino->blocos[destino->quantidade+i] = origem->blocos[i];
 	}
 	destino->quantidade += origem->quantidade;
 }
@@ -130,7 +130,7 @@ void __QdBlocos__Passo() {
 	//printf(" animado: %d\n", animado);
 
 	if (animado==2)	{
-		printf(" ###############\n ###############\n ###############\n ###############\n ###############\n ###############\n ###############\n");
+		printf("\n\n ###############\n ###############\n ###############\n ###############\n ###############\n ###############\n ###############\n");
 		CopiarParaOutraLista(&ComponentePai, &ComponenteCenario);
 		LimparLista(&ComponentePai);
 		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f });
