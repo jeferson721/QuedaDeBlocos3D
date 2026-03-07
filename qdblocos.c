@@ -101,6 +101,27 @@ static void CopiarParaOutraLista(ListaDeBlocos* origem, ListaDeBlocos* destino) 
 	destino->quantidade += origem->quantidade;
 }
 
+static Color CorAleatoria()
+{
+	int r = rand() % 10;
+
+	switch (r)
+	{
+	case 0: return RED;
+	case 1: return GREEN;
+	case 2: return BLUE;
+	case 3: return YELLOW;
+	case 4: return ORANGE;
+	case 5: return PURPLE;
+	case 6: return PINK;
+	case 7: return SKYBLUE;
+	case 8: return LIME;
+	case 9: return GOLD;
+	}
+
+	return WHITE; // Valor padrão caso algo dê errado
+}
+
 // --- Funções públicas ---
 
 void __QdBlocos__Iniciar() {
