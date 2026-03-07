@@ -12,6 +12,7 @@
 
 typedef struct {
     Vector3 position;
+    Color cor;
 } Bloco;
 
 typedef struct {

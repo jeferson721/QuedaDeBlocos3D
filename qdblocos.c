@@ -9,13 +9,14 @@ int InclementoDoHorario;
 float DecrementoDeQueda;
 ListaDeBlocos ComponentePai;
 ListaDeBlocos ComponenteCenario;
-Color CorDoBloco;
 
-static int AdicionarBloco(ListaDeBlocos* lista, Vector3 posicao) {
+
+static int AdicionarBloco(ListaDeBlocos* lista, Vector3 posicao, Color cor) {
 	if (lista->quantidade >= _blocos_tam_max_)return 0;
 
 	Bloco novoBloco = { 0 };
 	novoBloco.position = posicao;
+	novoBloco.cor = cor;
 
 	lista->blocos[lista->quantidade] = novoBloco;
 	lista->quantidade++;
@@ -28,7 +29,8 @@ static void DesenharBlocos(ListaDeBlocos* lista) {
 
 	for (uint16_t i = 0; i < lista->quantidade; i++) {
 		Bloco* bloco = &lista->blocos[i];
-		DrawCube(bloco->position, 1.0f, 1.0f, 1.0f, CorDoBloco);
+
+		DrawCube(bloco->position, 1.0f, 1.0f, 1.0f, bloco->cor);
 		DrawCubeWires(bloco->position, 1.0f, 1.0f, 1.0f, BLACK);	
 	}
 }
@@ -89,7 +91,7 @@ static void EspelharComponentePai(ListaDeBlocos* lista){
 		Bloco* bloco = &lista->blocos[i];
 		if (bloco->position.y == 0.50f) { continue; }
 		Vector3 posicaoOriginal = (Vector3){ bloco->position.x, 0.5f,bloco->position.z };		
-		DrawCubeWires(posicaoOriginal, 1.0f, 1.0f, 1.0f, CorDoBloco);
+		DrawCubeWires(posicaoOriginal, 1.0f, 1.0f, 1.0f, bloco->cor);
 	}
 }
 
@@ -134,9 +136,9 @@ void __QdBlocos__Iniciar() {
 	 InclementoDoHorario;
 	 DecrementoDeQueda = 1.00f;
 	 //ComponentePai = { 0 };
-	 CorDoBloco = BLUE;
 
-	AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f });
+
+	AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f }, CorAleatoria());
 	Aceleracao = AceleracaoPadrao;
 	AtualizarTempo();
 }
@@ -154,8 +156,9 @@ void __QdBlocos__Passo() {
 		printf("\n\n ###############\n ###############\n ###############\n ###############\n ###############\n ###############\n ###############\n");
 		CopiarParaOutraLista(&ComponentePai, &ComponenteCenario);
 		LimparLista(&ComponentePai);
-		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f });
-		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f });
+		Color cor = CorAleatoria();
+		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f },cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f },cor);
 
 	}
 
