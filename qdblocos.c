@@ -124,6 +124,19 @@ static Color CorAleatoria()
 	return WHITE; // Valor padrão caso algo dê errado
 }
 
+static int ColisaoEntreListaDeBlocos(ListaDeBlocos* lista1, ListaDeBlocos* lista2) {
+	if (lista1 == NULL || lista2 == NULL)return 0;
+	for (uint16_t i = 0; i < lista1->quantidade; i++) {
+		Bloco* bloco1 = &lista1->blocos[i];
+		for (uint16_t j = 0; j < lista2->quantidade; j++) {
+			Bloco* bloco2 = &lista2->blocos[j];
+			if (bloco1->position.x == bloco2->position.x && bloco1->position.y == bloco2->position.y) {
+				return 1; // Colisão detectada
+			}
+		}
+	}
+	return 0; // Nenhuma colisão detectada
+}
 // --- Funções públicas ---
 
 void __QdBlocos__Iniciar() {
@@ -161,6 +174,10 @@ void __QdBlocos__Passo() {
 		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f },cor);
 
 	}
+
+	int colisao = ColisaoEntreListaDeBlocos(&ComponentePai, &ComponenteCenario);
+	printf("\n colisao %d", colisao);
+
 
 	if (IsKeyUp(KEY_S)) {
 		Aceleracao = AceleracaoPadrao;
