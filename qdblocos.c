@@ -48,14 +48,12 @@ static int ColisaoEntreListaDeBlocos(ListaDeBlocos* lista1, ListaDeBlocos* lista
 	for (uint16_t i = 0; i < lista1->quantidade; i++) {
 		Bloco* bloco1 = &lista1->blocos[i];
 		for (uint16_t j = 0; j < lista2->quantidade; j++) {
-			Bloco* bloco2 = &lista2->blocos[j];
-			//if (bloco1->position.x == bloco2->position.x && bloco1->position.y == bloco2->position.y) {
-			//	return 1; // Colisão detectada
-			//}
+			Bloco* bloco2 = &lista2->blocos[j];		
+			if (bloco1->position.y<=bloco2->position.y)continue;			
+
 			float distancia = Vector3Distance(bloco1->position, bloco2->position);
-			if (distancia <= 1.0f) {
-				return 1; // Colisão detectada
-			}
+			if (distancia <= 1.0f)return 1; // Colisão detectada
+			
 		}
 	}
 	return 0; // Nenhuma colisão detectada
@@ -186,9 +184,6 @@ void __QdBlocos__Passo() {
 		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f },cor);
 
 	}
-
-
-
 
 	if (IsKeyUp(KEY_S)) {
 		Aceleracao = AceleracaoPadrao;
