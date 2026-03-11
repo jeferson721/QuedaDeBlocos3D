@@ -59,6 +59,22 @@ static int ColisaoEntreListaDeBlocos(ListaDeBlocos* lista1, ListaDeBlocos* lista
 	return 0; // Nenhuma colisão detectada
 }
 
+static int ColisaoEntreListaDeBlocosComImclemento(ListaDeBlocos* lista1, ListaDeBlocos* lista2, Vector3 *inclemento){
+	if (lista1 == NULL || lista2 == NULL)return 0;
+	for (uint16_t i = 0; i < lista1->quantidade; i++) {
+		Bloco* bloco1 = &lista1->blocos[i];
+		for (uint16_t j = 0; j < lista2->quantidade; j++) {
+			Bloco* bloco2 = &lista2->blocos[j];
+			if (bloco1->position.y <= bloco2->position.y)continue;
+			Vector3 posicaoComInclemento = (Vector3){ bloco1->position.x + inclemento->x, bloco1->position.y + inclemento->y, bloco1->position.z + inclemento->z };
+			float distancia = Vector3Distance(posicaoComInclemento, bloco2->position);
+			if (distancia <= 1.0f)return 1; // Colisão detectada
+
+		}
+	}
+	return 0; // Nenhuma colisão detectada
+}
+
 static int Animar(ListaDeBlocos* lista, ListaDeBlocos* lista2) {
 	int retorno =0;
 	/*
@@ -173,6 +189,8 @@ void __QdBlocos__Passo() {
 	EspelharComponentePai(&ComponentePai);
 
 	int animado=Animar(&ComponentePai, &ComponenteCenario);
+	Vector3 incle_a = { -1.00f, 0.00f, 0.00f };
+	Vector3 incle_d = { 1.00f, 0.00f, 0.00f };
 	//printf(" animado: %d\n", animado);
 
 	if (animado==2)	{
@@ -196,10 +214,16 @@ void __QdBlocos__Passo() {
 	}
 
 	if (IsKeyPressed(KEY_A)) {
-		AddVetor(&ComponentePai, (Vector3) { -1.00f, 0.00f, 0.00f });
+		if (!ColisaoEntreListaDeBlocosComImclemento(&ComponentePai, &ComponenteCenario,&incle_a)){
+			AddVetor(&ComponentePai, incle_a);
+		}
+		
 	}
 	if (IsKeyPressed(KEY_D)) {
-		AddVetor(&ComponentePai, (Vector3) { 1.00f, 0.00f, 0.00f });
+		if (!ColisaoEntreListaDeBlocosComImclemento(&ComponentePai, &ComponenteCenario,&incle_d))	{
+			AddVetor(&ComponentePai, incle_d);
+		}
+		
 	}
 
 	if (Tempo == MicroTempo) {
