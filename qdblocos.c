@@ -65,7 +65,7 @@ static int ColisaoEntreListaDeBlocosComImclemento(ListaDeBlocos* lista1, ListaDe
 		Bloco* bloco1 = &lista1->blocos[i];
 		for (uint16_t j = 0; j < lista2->quantidade; j++) {
 			Bloco* bloco2 = &lista2->blocos[j];
-			if (bloco1->position.y <= bloco2->position.y)continue;
+			if (bloco1->position.y < bloco2->position.y)continue;
 			Vector3 posicaoComInclemento = (Vector3){ bloco1->position.x + inclemento->x, bloco1->position.y + inclemento->y, bloco1->position.z + inclemento->z };
 			float distancia = Vector3Distance(posicaoComInclemento, bloco2->position);
 			if (distancia <= 1.0f)return 1; // Colisão detectada
@@ -77,10 +77,7 @@ static int ColisaoEntreListaDeBlocosComImclemento(ListaDeBlocos* lista1, ListaDe
 
 static int Animar(ListaDeBlocos* lista, ListaDeBlocos* lista2) {
 	int retorno =0;
-	/*
-	int colisao = ColisaoEntreListaDeBlocos(&ComponentePai, &ComponenteCenario);
-	printf("\n colisao %d", colisao);
-	*/
+
 	if (lista == NULL || lista->quantidade == 0)return retorno;
 
 	if (Tempo == ProxHorarioAtualizacao) {
