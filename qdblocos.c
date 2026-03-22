@@ -159,6 +159,44 @@ static Color CorAleatoria()
 	return WHITE; // Valor padrão caso algo dê errado
 }
 
+static void ChamarUmPolimino(void) {
+	int numaleto = rand() % 2;
+	Color cor = CorAleatoria();
+
+	/*T: uma sequência de três blocos com um adicionado ao abaixo do bloco central.[4]
+	Os outros quatro tetraminós apresentam quiralidade: quando refletidos, apresentam uma forma distinta.
+	Os "poliminós L" são:[5]
+	J: uma sequência de três blocos, com um adicionado abaixo da extremidade direita.
+	L: uma sequência de três blocos, com um adicionado abaixo da extremidade esquerda.
+	Os "poliminós S" ("skew"):[6]
+	S: duas sequências de dominós na horizontal, sendo o de cima deslocado para a direita.
+	Z: duas sequências de dominós na horizontal, sendo o de cima deslocado para a esquerda.	*/
+
+	if (numaleto==0){
+		// O: quatro blocos formando um quadrado 2x2
+		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f }, cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 18.50f, 0.00f }, cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 18.50f, 0.00f }, cor);
+	}
+	else if (numaleto == 1) {
+		//I: quatro blocos em sequência
+	
+		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f }, cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 19.50f, 0.00f }, cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 3.00f, 19.50f, 0.00f }, cor);
+	}
+	else if (numaleto == 2) {
+
+	}
+	else{
+
+	}
+
+
+}
+
 
 // --- Funções públicas ---
 
@@ -172,9 +210,7 @@ void __QdBlocos__Iniciar() {
 	 InclementoDoHorario;
 	 DecrementoDeQueda = 1.00f;
 	 //ComponentePai = { 0 };
-
-
-	AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f }, CorAleatoria());
+	 	 	 ChamarUmPolimino();
 	Aceleracao = AceleracaoPadrao;
 	AtualizarTempo();
 }
@@ -194,10 +230,7 @@ void __QdBlocos__Passo() {
 		printf("\n\n ###############\n ###############\n ###############\n ###############\n ###############\n ###############\n ###############\n");
 		CopiarParaOutraLista(&ComponentePai, &ComponenteCenario);
 		LimparLista(&ComponentePai);
-		Color cor = CorAleatoria();
-		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f },cor);
-		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f },cor);
-
+		ChamarUmPolimino();
 	}
 
 	if (IsKeyUp(KEY_S)) {
