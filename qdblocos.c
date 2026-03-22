@@ -160,19 +160,10 @@ static Color CorAleatoria()
 }
 
 static void ChamarUmPolimino(void) {
-	int numaleto = rand() % 2;
+	int numaleto = rand() % 7;
 	Color cor = CorAleatoria();
 
-	/*T: uma sequência de três blocos com um adicionado ao abaixo do bloco central.[4]
-	Os outros quatro tetraminós apresentam quiralidade: quando refletidos, apresentam uma forma distinta.
-	Os "poliminós L" são:[5]
-	J: uma sequência de três blocos, com um adicionado abaixo da extremidade direita.
-	L: uma sequência de três blocos, com um adicionado abaixo da extremidade esquerda.
-	Os "poliminós S" ("skew"):[6]
-	S: duas sequências de dominós na horizontal, sendo o de cima deslocado para a direita.
-	Z: duas sequências de dominós na horizontal, sendo o de cima deslocado para a esquerda.	*/
-
-	if (numaleto==0){
+	if (numaleto == 0) {
 		// O: quatro blocos formando um quadrado 2x2
 		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f }, cor);
 		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);
@@ -180,18 +171,50 @@ static void ChamarUmPolimino(void) {
 		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 18.50f, 0.00f }, cor);
 	}
 	else if (numaleto == 1) {
-		//I: quatro blocos em sequência
-	
+		// I: quatro blocos em sequência
 		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f }, cor);
 		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);
 		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 19.50f, 0.00f }, cor);
 		AdicionarBloco(&ComponentePai, (Vector3) { 3.00f, 19.50f, 0.00f }, cor);
 	}
 	else if (numaleto == 2) {
-
+		// T: uma sequência de três blocos com um adicionado ao abaixo do bloco central.
+		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f }, cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 19.50f, 0.00f }, cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 18.50f, 0.00f }, cor);
 	}
-	else{
-
+	else if (numaleto == 3) {
+		// J: uma sequência de três blocos, com um adicionado abaixo da extremidade direita.
+		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f }, cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 19.50f, 0.00f }, cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 18.50f, 0.00f }, cor);
+	}
+	else if (numaleto == 4) {
+		// L: uma sequência de três blocos, com um adicionado abaixo da extremidade esquerda.
+		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f }, cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 19.50f, 0.00f }, cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 18.50f, 0.00f }, cor);
+	}
+	else if (numaleto == 5) {
+		// S: duas sequências de dominós na horizontal, sendo o de cima deslocado para a direita.
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 19.50f, 0.00f }, cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 18.50f, 0.00f }, cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 18.50f, 0.00f }, cor);
+	}
+	else if (numaleto == 6) {
+		// Z: duas sequências de dominós na horizontal, sendo o de cima deslocado para a esquerda.
+		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f }, cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 18.50f, 0.00f }, cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 18.50f, 0.00f }, cor);
+	}
+	else {
+		// Caso algo dê errado na geração do número aleatório.
+		printf("\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas");
 	}
 
 
