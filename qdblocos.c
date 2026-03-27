@@ -119,13 +119,27 @@ static void AddVetor(ListaDeBlocos* lista, Vector3 add) {
 
 }
 
-static void EspelharComponentePai(ListaDeBlocos* lista){
+static uint16_t IndiceDoBlocoComMenorY(ListaDeBlocos* lista) {
+	if (lista == NULL || lista->quantidade == 0)return -1;
+	uint16_t indiceMenorY = 0;
+	for (uint16_t i = 1; i < lista->quantidade; i++) {
+		if (lista->blocos[i].position.y < lista->blocos[indiceMenorY].position.y) {
+			indiceMenorY = i;
+		}
+	}
+	return indiceMenorY;
+}
+
+static void ReflexaoDoComponentePai(ListaDeBlocos* lista){
 	if (lista == NULL || lista->quantidade == 0)return;
+	
+	uint16_t indiceMenorY = IndiceDoBlocoComMenorY(lista);
 
 	for (uint16_t i = 0; i < lista->quantidade; i++) {
 		Bloco* bloco = &lista->blocos[i];
 		if (bloco->position.y == 0.50f) { continue; }
-		Vector3 posicaoOriginal = (Vector3){ bloco->position.x, 0.5f,bloco->position.z };		
+		float distanciaY = bloco->position.y - lista->blocos[indiceMenorY].position.y+0.5f;		
+		Vector3 posicaoOriginal = (Vector3){ bloco->position.x, distanciaY,bloco->position.z };
 		DrawCubeWires(posicaoOriginal, 1.0f, 1.0f, 1.0f, bloco->cor);
 	}
 }
@@ -242,7 +256,7 @@ void __QdBlocos__Passo() {
 	DesenharBlocos(&ComponentePai);
 	DesenharBlocos(&ComponenteCenario);
 
-	EspelharComponentePai(&ComponentePai);
+	ReflexaoDoComponentePai(&ComponentePai);
 
 	int animado=Animar(&ComponentePai, &ComponenteCenario);
 	Vector3 incle_a = { -1.00f, 0.00f, 0.00f };
