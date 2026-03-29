@@ -31,14 +31,14 @@ static void DesenharBlocos(ListaDeBlocos* lista) {
 		Bloco* bloco = &lista->blocos[i];
 
 		DrawCube(bloco->position, 1.0f, 1.0f, 1.0f, bloco->cor);
-		DrawCubeWires(bloco->position, 1.0f, 1.0f, 1.0f, BLACK);	
+		DrawCubeWires(bloco->position, 1.0f, 1.0f, 1.0f, BLACK);
 	}
 }
 
 static void LimparLista(ListaDeBlocos* lista) {
 	if (lista == NULL || lista->quantidade == 0)return;
-	for (uint16_t i = 0; i < lista->quantidade; i++) { 
-		lista->blocos[i] = (Bloco){ 0 }; 
+	for (uint16_t i = 0; i < lista->quantidade; i++) {
+		lista->blocos[i] = (Bloco){ 0 };
 	}
 	lista->quantidade = 0;
 }
@@ -48,18 +48,18 @@ static int ColisaoEntreListaDeBlocos(ListaDeBlocos* lista1, ListaDeBlocos* lista
 	for (uint16_t i = 0; i < lista1->quantidade; i++) {
 		Bloco* bloco1 = &lista1->blocos[i];
 		for (uint16_t j = 0; j < lista2->quantidade; j++) {
-			Bloco* bloco2 = &lista2->blocos[j];		
-			if (bloco1->position.y<=bloco2->position.y)continue;			
+			Bloco* bloco2 = &lista2->blocos[j];
+			if (bloco1->position.y <= bloco2->position.y)continue;
 
 			float distancia = Vector3Distance(bloco1->position, bloco2->position);
 			if (distancia <= 1.0f)return 1; // Colisão detectada
-			
+
 		}
 	}
 	return 0; // Nenhuma colisão detectada
 }
 
-static int ColisaoEntreListaDeBlocosComImclemento(ListaDeBlocos* lista1, ListaDeBlocos* lista2, Vector3 *inclemento){
+static int ColisaoEntreListaDeBlocosComImclemento(ListaDeBlocos* lista1, ListaDeBlocos* lista2, Vector3* inclemento) {
 	if (lista1 == NULL || lista2 == NULL)return 0;
 	for (uint16_t i = 0; i < lista1->quantidade; i++) {
 		Bloco* bloco1 = &lista1->blocos[i];
@@ -76,29 +76,29 @@ static int ColisaoEntreListaDeBlocosComImclemento(ListaDeBlocos* lista1, ListaDe
 }
 
 static int Animar(ListaDeBlocos* lista, ListaDeBlocos* lista2) {
-	int retorno =0;
+	int retorno = 0;
 
 	if (lista == NULL || lista->quantidade == 0)return retorno;
 
 	if (Tempo == ProxHorarioAtualizacao) {
 		for (uint16_t i = 0; i < lista->quantidade; i++) {
 			Bloco* bloco = &lista->blocos[i];
-			if (bloco->position.y <= 0.55f|| ColisaoEntreListaDeBlocos(lista, lista2)!=0) {
-				retorno = 2; 
+			if (bloco->position.y <= 0.55f || ColisaoEntreListaDeBlocos(lista, lista2) != 0) {
+				retorno = 2;
 				return retorno;
 			}
-		}	
+		}
 	}
 
 	if (Tempo == ProxHorarioAtualizacao) {
 		for (uint16_t i = 0; i < lista->quantidade; i++) {
-			Bloco* bloco = &lista->blocos[i];			
-			bloco->position.y -= DecrementoDeQueda;			
+			Bloco* bloco = &lista->blocos[i];
+			bloco->position.y -= DecrementoDeQueda;
 		}
 		ProxHorarioAtualizacao += InclementoDoHorario;
 		retorno = 1;
 	}
-	
+
 	return retorno;
 }
 
@@ -130,24 +130,48 @@ static uint16_t IndiceDoBlocoComMenorY(ListaDeBlocos* lista) {
 	return indiceMenorY;
 }
 
-static void ReflexaoDoComponentePai(ListaDeBlocos* lista){
+static void ReflexaoDoComponentePai(ListaDeBlocos* lista) {
 	if (lista == NULL || lista->quantidade == 0)return;
-	
+
 	uint16_t indiceMenorY = IndiceDoBlocoComMenorY(lista);
 
-	for (uint16_t i = 0; i < lista->quantidade; i++) {
-		Bloco* bloco = &lista->blocos[i];
-		if (bloco->position.y == 0.50f) { continue; }
-		float distanciaY = bloco->position.y - lista->blocos[indiceMenorY].position.y+0.5f;		
-		Vector3 posicaoOriginal = (Vector3){ bloco->position.x, distanciaY,bloco->position.z };
-		DrawCubeWires(posicaoOriginal, 1.0f, 1.0f, 1.0f, bloco->cor);
+	ListaDeBlocos reflexao = { 0 };
+	float inclementoy = 0.00f;
+
+	for (uint8_t i = 0; i < 250; i++) {
+		for (uint16_t i = 0; i < lista->quantidade; i++) {
+			Bloco* bloco = &lista->blocos[i];
+			if (bloco->position.y == 0.50f) { continue; }
+			float distanciaY = bloco->position.y - lista->blocos[indiceMenorY].position.y + 0.5f;
+			Vector3 posicaoOriginal = (Vector3){ bloco->position.x, distanciaY + inclementoy,bloco->position.z };
+			AdicionarBloco(&reflexao, posicaoOriginal, bloco->cor);
+		}
+
+		if (0 == ColisaoEntreListaDeBlocos(&reflexao, &ComponenteCenario))
+		{
+			break;
+		}
+		else
+		{
+			inclementoy += 1.00f;
+			LimparLista(&reflexao);
+		}
 	}
+
+	for (uint16_t i = 0; i < reflexao.quantidade; i++) {
+		Color cor = reflexao.blocos[i].cor;
+		cor.a = 50; // Definir a transparência (0-255)
+		DrawCube(reflexao.blocos[i].position, 1.0f, 1.0f, 1.0f, cor);
+		DrawCubeWires(reflexao.blocos[i].position, 1.0f, 1.0f, 1.0f, reflexao.blocos[i].cor);
+	}
+	LimparLista(&reflexao);
+
 }
 
 static void CopiarParaOutraLista(ListaDeBlocos* origem, ListaDeBlocos* destino) {
 	if (origem == NULL || destino == NULL)return;
 	for (uint16_t i = 0; i < origem->quantidade; i++) {
-		destino->blocos[destino->quantidade+i] = origem->blocos[i];
+		destino->blocos[destino->quantidade + i] = origem->blocos[i];
 	}
 	destino->quantidade += origem->quantidade;
 }
@@ -239,15 +263,15 @@ static void ChamarUmPolimino(void) {
 
 void __QdBlocos__Iniciar() {
 
-	 MicroTempo = 100;
-	 Tempo = 0;
-	 AceleracaoPadrao = 1;
-	 Aceleracao;
-	 ProxHorarioAtualizacao;
-	 InclementoDoHorario;
-	 DecrementoDeQueda = 1.00f;
-	 //ComponentePai = { 0 };
-	 	 	 ChamarUmPolimino();
+	MicroTempo = 100;
+	Tempo = 0;
+	AceleracaoPadrao = 1;
+	Aceleracao;
+	ProxHorarioAtualizacao;
+	InclementoDoHorario;
+	DecrementoDeQueda = 1.00f;
+	//ComponentePai = { 0 };
+	ChamarUmPolimino();
 	Aceleracao = AceleracaoPadrao;
 	AtualizarTempo();
 }
@@ -258,12 +282,12 @@ void __QdBlocos__Passo() {
 
 	ReflexaoDoComponentePai(&ComponentePai);
 
-	int animado=Animar(&ComponentePai, &ComponenteCenario);
+	int animado = Animar(&ComponentePai, &ComponenteCenario);
 	Vector3 incle_a = { -1.00f, 0.00f, 0.00f };
 	Vector3 incle_d = { 1.00f, 0.00f, 0.00f };
 	//printf(" animado: %d\n", animado);
 
-	if (animado==2)	{
+	if (animado == 2) {
 		printf("\n\n ###############\n ###############\n ###############\n ###############\n ###############\n ###############\n ###############\n");
 		CopiarParaOutraLista(&ComponentePai, &ComponenteCenario);
 		LimparLista(&ComponentePai);
@@ -281,16 +305,16 @@ void __QdBlocos__Passo() {
 	}
 
 	if (IsKeyPressed(KEY_A)) {
-		if (!ColisaoEntreListaDeBlocosComImclemento(&ComponentePai, &ComponenteCenario,&incle_a)){
+		if (!ColisaoEntreListaDeBlocosComImclemento(&ComponentePai, &ComponenteCenario, &incle_a)) {
 			AddVetor(&ComponentePai, incle_a);
 		}
-		
+
 	}
 	if (IsKeyPressed(KEY_D)) {
-		if (!ColisaoEntreListaDeBlocosComImclemento(&ComponentePai, &ComponenteCenario,&incle_d))	{
+		if (!ColisaoEntreListaDeBlocosComImclemento(&ComponentePai, &ComponenteCenario, &incle_d)) {
 			AddVetor(&ComponentePai, incle_d);
 		}
-		
+
 	}
 
 	if (Tempo == MicroTempo) {
