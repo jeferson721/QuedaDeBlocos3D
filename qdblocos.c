@@ -136,13 +136,13 @@ static void ReflexaoDoComponentePai(ListaDeBlocos* lista) {
 	uint16_t indiceMenorY = IndiceDoBlocoComMenorY(lista);
 
 	ListaDeBlocos reflexao = { 0 };
-	float inclementoy = 0.00f;
+	float inclementoy = 0.5000f;
 
 	for (uint8_t i = 0; i < 250; i++) {
 		for (uint16_t i = 0; i < lista->quantidade; i++) {
 			Bloco* bloco = &lista->blocos[i];
-			if (bloco->position.y == 0.50f) { continue; }
-			float distanciaY = bloco->position.y - lista->blocos[indiceMenorY].position.y + 0.5f;
+			//if (bloco->position.y == 0.50f) { continue; }
+			float distanciaY = bloco->position.y - lista->blocos[indiceMenorY].position.y;
 			Vector3 posicaoOriginal = (Vector3){ bloco->position.x, distanciaY + inclementoy,bloco->position.z };
 			AdicionarBloco(&reflexao, posicaoOriginal, bloco->cor);
 		}
@@ -153,7 +153,7 @@ static void ReflexaoDoComponentePai(ListaDeBlocos* lista) {
 		}
 		else
 		{
-			inclementoy += 1.00f;
+			inclementoy += 0.50f;
 			LimparLista(&reflexao);
 		}
 	}
