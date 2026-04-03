@@ -10,7 +10,6 @@ float DecrementoDeQueda;
 ListaDeBlocos ComponentePai;
 ListaDeBlocos ComponenteCenario;
 
-
 static int AdicionarBloco(ListaDeBlocos* lista, Vector3 posicao, Color cor) {
 	if (lista->quantidade >= _blocos_tam_max_)return 0;
 
@@ -102,6 +101,28 @@ static int Animar(ListaDeBlocos* lista, ListaDeBlocos* lista2) {
 	return retorno;
 }
 
+static int AnimarSemTempoProgramado(ListaDeBlocos* lista, ListaDeBlocos* lista2) {
+	int retorno = 0;
+
+	if (lista == NULL || lista->quantidade == 0)return retorno;
+
+	for (uint16_t i = 0; i < lista->quantidade; i++) {
+		Bloco* bloco = &lista->blocos[i];
+		if (bloco->position.y <= 0.55f || ColisaoEntreListaDeBlocos(lista, lista2) != 0) {
+			retorno = 2;
+			return retorno;
+		}
+	}
+
+	for (uint16_t i = 0; i < lista->quantidade; i++) {
+		Bloco* bloco = &lista->blocos[i];
+		bloco->position.y -= DecrementoDeQueda;
+	}
+
+	retorno = 1;
+	return retorno;
+}
+
 static void AtualizarTempo() {
 	InclementoDoHorario = MicroTempo / Aceleracao;
 	ProxHorarioAtualizacao = InclementoDoHorario;
@@ -130,50 +151,34 @@ static uint16_t IndiceDoBlocoComMenorY(ListaDeBlocos* lista) {
 	return indiceMenorY;
 }
 
-static void ReflexaoDoComponentePai(ListaDeBlocos* lista) {
-	if (lista == NULL || lista->quantidade == 0)return;
-
-	uint16_t indiceMenorY = IndiceDoBlocoComMenorY(lista);
-
-	ListaDeBlocos reflexao = { 0 };
-	float inclementoy = 0.5000f;
-
-	for (uint8_t i = 0; i < 250; i++) {
-		for (uint16_t i = 0; i < lista->quantidade; i++) {
-			Bloco* bloco = &lista->blocos[i];
-			//if (bloco->position.y == 0.50f) { continue; }
-			float distanciaY = bloco->position.y - lista->blocos[indiceMenorY].position.y;
-			Vector3 posicaoOriginal = (Vector3){ bloco->position.x, distanciaY + inclementoy,bloco->position.z };
-			AdicionarBloco(&reflexao, posicaoOriginal, bloco->cor);
-		}
-
-		if (0 == ColisaoEntreListaDeBlocos(&reflexao, &ComponenteCenario))
-		{
-			break;
-		}
-		else
-		{
-			inclementoy += 0.50f;
-			LimparLista(&reflexao);
-		}
-	}
-
-	for (uint16_t i = 0; i < reflexao.quantidade; i++) {
-		Color cor = reflexao.blocos[i].cor;
-		cor.a = 50; // Definir a transparência (0-255)
-		DrawCube(reflexao.blocos[i].position, 1.0f, 1.0f, 1.0f, cor);
-		DrawCubeWires(reflexao.blocos[i].position, 1.0f, 1.0f, 1.0f, reflexao.blocos[i].cor);
-	}
-	LimparLista(&reflexao);
-
-}
-
 static void CopiarParaOutraLista(ListaDeBlocos* origem, ListaDeBlocos* destino) {
 	if (origem == NULL || destino == NULL)return;
 	for (uint16_t i = 0; i < origem->quantidade; i++) {
 		destino->blocos[destino->quantidade + i] = origem->blocos[i];
 	}
 	destino->quantidade += origem->quantidade;
+}
+
+static void ReflexaoDoComponentePai(ListaDeBlocos* lista) {
+	if (lista == NULL || lista->quantidade == 0)return;
+
+	uint16_t indiceMenorY = IndiceDoBlocoComMenorY(lista);
+	ListaDeBlocos reflexao = { 0 };
+	CopiarParaOutraLista(&ComponentePai, &reflexao);
+
+	for (uint8_t i = 0; i < 100; i++){
+		int animado = AnimarSemTempoProgramado(&reflexao, &ComponenteCenario);
+		if (animado == 2)break;
+	}
+
+	for (uint16_t i = 0; i < reflexao.quantidade; i++) {
+		Color cor = reflexao.blocos[i].cor;
+		cor.a = 50;	
+		DrawCube(reflexao.blocos[i].position, 1.0f, 1.0f, 1.0f, cor);
+		DrawCubeWires(reflexao.blocos[i].position, 1.0f, 1.0f, 1.0f, reflexao.blocos[i].cor);
+	}
+
+	LimparLista(&reflexao);
 }
 
 static Color CorAleatoria()
@@ -258,7 +263,6 @@ static void ChamarUmPolimino(void) {
 
 }
 
-
 // --- Funções públicas ---
 
 void __QdBlocos__Iniciar() {
@@ -277,18 +281,18 @@ void __QdBlocos__Iniciar() {
 }
 
 void __QdBlocos__Passo() {
+
 	DesenharBlocos(&ComponentePai);
 	DesenharBlocos(&ComponenteCenario);
-
 	ReflexaoDoComponentePai(&ComponentePai);
 
 	int animado = Animar(&ComponentePai, &ComponenteCenario);
+
 	Vector3 incle_a = { -1.00f, 0.00f, 0.00f };
 	Vector3 incle_d = { 1.00f, 0.00f, 0.00f };
-	//printf(" animado: %d\n", animado);
 
-	if (animado == 2) {
-		printf("\n\n ###############\n ###############\n ###############\n ###############\n ###############\n ###############\n ###############\n");
+	if (animado == 2) {		
+		printf("\n Chamar novo Polimino  \n");
 		CopiarParaOutraLista(&ComponentePai, &ComponenteCenario);
 		LimparLista(&ComponentePai);
 		ChamarUmPolimino();
@@ -308,13 +312,12 @@ void __QdBlocos__Passo() {
 		if (!ColisaoEntreListaDeBlocosComImclemento(&ComponentePai, &ComponenteCenario, &incle_a)) {
 			AddVetor(&ComponentePai, incle_a);
 		}
-
 	}
+
 	if (IsKeyPressed(KEY_D)) {
 		if (!ColisaoEntreListaDeBlocosComImclemento(&ComponentePai, &ComponenteCenario, &incle_d)) {
 			AddVetor(&ComponentePai, incle_d);
 		}
-
 	}
 
 	if (Tempo == MicroTempo) {
