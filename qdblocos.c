@@ -292,7 +292,7 @@ void __QdBlocos__Passo() {
 	Vector3 incle_d = { 1.00f, 0.00f, 0.00f };
 
 	if (animado == 2) {		
-		printf("\n Chamar novo Polimino  \n");
+		printf("\n -----> Chamar novo Polimino  \n");
 		CopiarParaOutraLista(&ComponentePai, &ComponenteCenario);
 		LimparLista(&ComponentePai);
 		ChamarUmPolimino();
@@ -318,6 +318,11 @@ void __QdBlocos__Passo() {
 		if (!ColisaoEntreListaDeBlocosComImclemento(&ComponentePai, &ComponenteCenario, &incle_d)) {
 			AddVetor(&ComponentePai, incle_d);
 		}
+	}
+
+	if (IsKeyPressed(KEY_E)) {
+		printf("\n -----> ROTACIONAR Polimino  \n");
+
 	}
 
 	if (Tempo == MicroTempo) {
