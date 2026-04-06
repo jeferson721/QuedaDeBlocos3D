@@ -259,8 +259,21 @@ static void ChamarUmPolimino(void) {
 		// Caso algo dê errado na geração do número aleatório.
 		printf("\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas");
 	}
+}
 
-
+static void DesenharCenario() {
+	
+	Vector3 posicaoBase = { 0.00f, -0.50f, 0.0f };
+	Color corBase = GRAY;
+	
+	for (uint8_t linha = 0; linha < 22; linha++){
+		posicaoBase.x = -6.00f;
+		for (size_t coluna = 0; coluna < 12; coluna++){
+			if ((linha == 0)||(linha == 21) || (coluna==0) || (coluna == 11))AdicionarBloco(&ComponenteCenario, posicaoBase, corBase);		
+			posicaoBase.x += 1;
+		}
+		posicaoBase.y += 1;
+	}
 }
 
 // --- Funções públicas ---
@@ -283,6 +296,7 @@ void __QdBlocos__Iniciar() {
 void __QdBlocos__Passo() {
 
 	DesenharBlocos(&ComponentePai);
+	DesenharCenario();
 	DesenharBlocos(&ComponenteCenario);
 	ReflexaoDoComponentePai(&ComponentePai);
 
@@ -333,3 +347,4 @@ void __QdBlocos__Passo() {
 		Tempo++;
 	}
 }
+

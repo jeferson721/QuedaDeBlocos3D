@@ -86,7 +86,7 @@ void __Graficos__IniciarDesenho3d(void) {
 
 	}
 	// Desenha uma grade para dar uma melhor noção de espaço
-	DrawGrid(10, 1.0f);
+	//DrawGrid(10, 1.0f);
 	//DrawSphereWires((Vector3) { 0, 0, 0 }, 1, 50, 50, BLACK);
 
 }
