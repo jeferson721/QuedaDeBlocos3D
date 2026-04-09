@@ -288,15 +288,15 @@ void __QdBlocos__Iniciar() {
 	InclementoDoHorario;
 	DecrementoDeQueda = 1.00f;
 	//ComponentePai = { 0 };
+	DesenharCenario();
 	ChamarUmPolimino();
 	Aceleracao = AceleracaoPadrao;
 	AtualizarTempo();
+
 }
 
 void __QdBlocos__Passo() {
-
 	DesenharBlocos(&ComponentePai);
-	DesenharCenario();
 	DesenharBlocos(&ComponenteCenario);
 	ReflexaoDoComponentePai(&ComponentePai);
 
