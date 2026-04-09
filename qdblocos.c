@@ -276,6 +276,33 @@ static void DesenharCenario() {
 	}
 }
 
+static void RotacionarBlocos90(Bloco blocos[], int quantidade, Vector3 pivo, bool horario)
+{
+	for (int i = 0; i < quantidade; i++)
+	{
+		// posição relativa ao pivô
+		float relX = blocos[i].position.x - pivo.x;
+		float relY = blocos[i].position.y - pivo.y;
+
+		float novoX, novoY;
+
+		if (horario)
+		{
+			novoX = relY;
+			novoY = -relX;
+		}
+		else
+		{
+			novoX = -relY;
+			novoY = relX;
+		}
+
+		// volta para o espaço original
+		blocos[i].position.x = pivo.x + novoX;
+		blocos[i].position.y = pivo.y + novoY;
+	}
+}
+
 // --- Funções públicas ---
 
 void __QdBlocos__Iniciar() {
