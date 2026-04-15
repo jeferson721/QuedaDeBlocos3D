@@ -166,14 +166,14 @@ static void ReflexaoDoComponentePai(ListaDeBlocos* lista) {
 	ListaDeBlocos reflexao = { 0 };
 	CopiarParaOutraLista(&ComponentePai, &reflexao);
 
-	for (uint8_t i = 0; i < 100; i++){
+	for (uint8_t i = 0; i < 100; i++) {
 		int animado = AnimarSemTempoProgramado(&reflexao, &ComponenteCenario);
 		if (animado == 2)break;
 	}
 
 	for (uint16_t i = 0; i < reflexao.quantidade; i++) {
 		Color cor = reflexao.blocos[i].cor;
-		cor.a = 50;	
+		cor.a = 50;
 		DrawCube(reflexao.blocos[i].position, 1.0f, 1.0f, 1.0f, cor);
 		DrawCubeWires(reflexao.blocos[i].position, 1.0f, 1.0f, 1.0f, reflexao.blocos[i].cor);
 	}
@@ -262,30 +262,55 @@ static void ChamarUmPolimino(void) {
 }
 
 static void DesenharCenario() {
-	
+
 	Vector3 posicaoBase = { 0.00f, -0.50f, 0.0f };
 	Color corBase = GRAY;
-	
-	for (uint8_t linha = 0; linha < 22; linha++){
+
+	for (uint8_t linha = 0; linha < 22; linha++) {
 		posicaoBase.x = -6.00f;
-		for (size_t coluna = 0; coluna < 12; coluna++){
-			if ((linha == 0)||(linha == 21) || (coluna==0) || (coluna == 11))AdicionarBloco(&ComponenteCenario, posicaoBase, corBase);		
+		for (size_t coluna = 0; coluna < 12; coluna++) {
+			if ((linha == 0) || (linha == 21) || (coluna == 0) || (coluna == 11))AdicionarBloco(&ComponenteCenario, posicaoBase, corBase);
 			posicaoBase.x += 1;
 		}
 		posicaoBase.y += 1;
 	}
 }
 
-static void RotacionarBlocos90(Bloco blocos[], int quantidade, Vector3 pivo, bool horario)
-{
-	for (int i = 0; i < quantidade; i++)
-	{
-		// posição relativa ao pivô
-		float relX = blocos[i].position.x - pivo.x;
-		float relY = blocos[i].position.y - pivo.y;
+static Vector3 RetornarPivo(ListaDeBlocos* lista) {
+	Vector3 pivo = { 0.0f, 0.0f, 0.0f };
+	if (lista == NULL || lista->quantidade == 0)return pivo;
+	float menorx = 10000.0f;
+	float maiorx = -10000.0f;
+	float menory = 10000.0f;
+	float maiory = -10000.0f;
 
+	for (uint16_t i = 0; i < lista->quantidade; i++) {
+		Bloco* bloco = &lista->blocos[i];
+		if (bloco->position.x < menorx) menorx = bloco->position.x;
+		if (bloco->position.x > maiorx) maiorx = bloco->position.x;
+		if (bloco->position.y < menory) menory = bloco->position.y;
+		if (bloco->position.y > maiory) maiory = bloco->position.y;
+	}
+
+	float resultado_x = (menorx - maiorx) / 2.0f;
+	float resultado_y = (menory - maiory) / 2.0f;
+	pivo.x = resultado_x;
+	pivo.y = resultado_y;
+
+	return pivo;
+}
+
+
+
+static void RotacionarLista(ListaDeBlocos* lista, int horario) {
+	if (lista == NULL || lista->quantidade == 0)return;
+	Vector3 pivo = RetornarPivo(lista);
+	for (uint16_t i = 0; i < lista->quantidade; i++) {
+
+		Bloco* bloco = &lista->blocos[i];
+		float relX = bloco->position.x - pivo.x;
+		float relY = bloco->position.y - pivo.y;
 		float novoX, novoY;
-
 		if (horario)
 		{
 			novoX = relY;
@@ -296,12 +321,13 @@ static void RotacionarBlocos90(Bloco blocos[], int quantidade, Vector3 pivo, boo
 			novoX = -relY;
 			novoY = relX;
 		}
-
-		// volta para o espaço original
-		blocos[i].position.x = pivo.x + novoX;
-		blocos[i].position.y = pivo.y + novoY;
+		bloco->position.x = pivo.x + novoX;
+		bloco->position.y = pivo.y + novoY;
 	}
 }
+
+
+
 
 // --- Funções públicas ---
 
@@ -332,7 +358,7 @@ void __QdBlocos__Passo() {
 	Vector3 incle_a = { -1.00f, 0.00f, 0.00f };
 	Vector3 incle_d = { 1.00f, 0.00f, 0.00f };
 
-	if (animado == 2) {		
+	if (animado == 2) {
 		printf("\n -----> Chamar novo Polimino  \n");
 		CopiarParaOutraLista(&ComponentePai, &ComponenteCenario);
 		LimparLista(&ComponentePai);
@@ -363,7 +389,7 @@ void __QdBlocos__Passo() {
 
 	if (IsKeyPressed(KEY_E)) {
 		printf("\n -----> ROTACIONAR Polimino  \n");
-
+		RotacionarLista(&ComponentePai, 1);
 	}
 
 	if (Tempo == MicroTempo) {
