@@ -6,7 +6,10 @@ int AceleracaoPadrao;
 int Aceleracao;
 int ProxHorarioAtualizacao;
 int InclementoDoHorario;
+int numaleto;
 float DecrementoDeQueda;
+
+Bloco* PecaCentral;
 ListaDeBlocos ComponentePai;
 ListaDeBlocos ComponenteCenario;
 
@@ -203,62 +206,73 @@ static Color CorAleatoria()
 }
 
 static void ChamarUmPolimino(void) {
-	int numaleto = rand() % 7;
-	Color cor = CorAleatoria();
-
+	
+	//int numaleto = rand() % 7;
+	//Color cor = CorAleatoria();
+	Color cor = GRAY;
+	PecaCentral = NULL;
 	if (numaleto == 0) {
 		// O: quatro blocos formando um quadrado 2x2
 		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f }, cor);
 		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);
 		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 18.50f, 0.00f }, cor);
-		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 18.50f, 0.00f }, cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 18.50f, 0.00f }, cor);		
 	}
 	else if (numaleto == 1) {
 		// I: quatro blocos em sequência
 		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f }, cor);
-		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);
-		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 19.50f, 0.00f }, cor);
+		PecaCentral = &ComponentePai.blocos[ComponentePai.quantidade];
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);		
+		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 19.50f, 0.00f }, cor);		         
 		AdicionarBloco(&ComponentePai, (Vector3) { 3.00f, 19.50f, 0.00f }, cor);
 	}
 	else if (numaleto == 2) {
 		// T: uma sequência de três blocos com um adicionado ao abaixo do bloco central.
 		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f }, cor);
-		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);
+		PecaCentral = &ComponentePai.blocos[ComponentePai.quantidade];
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);		
 		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 19.50f, 0.00f }, cor);
 		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 18.50f, 0.00f }, cor);
 	}
 	else if (numaleto == 3) {
 		// J: uma sequência de três blocos, com um adicionado abaixo da extremidade direita.
 		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f }, cor);
-		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);
+		PecaCentral = &ComponentePai.blocos[ComponentePai.quantidade];
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);		
 		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 19.50f, 0.00f }, cor);
 		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 18.50f, 0.00f }, cor);
 	}
 	else if (numaleto == 4) {
 		// L: uma sequência de três blocos, com um adicionado abaixo da extremidade esquerda.
 		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f }, cor);
-		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);
+		PecaCentral = &ComponentePai.blocos[ComponentePai.quantidade];
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);		
 		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 19.50f, 0.00f }, cor);
 		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 18.50f, 0.00f }, cor);
 	}
 	else if (numaleto == 5) {
 		// S: duas sequências de dominós na horizontal, sendo o de cima deslocado para a direita.
-		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);
-		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 19.50f, 0.00f }, cor);
+		PecaCentral = &ComponentePai.blocos[ComponentePai.quantidade];
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);		
+		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 19.50f, 0.00f }, cor);		
 		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 18.50f, 0.00f }, cor);
 		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 18.50f, 0.00f }, cor);
 	}
 	else if (numaleto == 6) {
 		// Z: duas sequências de dominós na horizontal, sendo o de cima deslocado para a esquerda.
 		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f }, cor);
-		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);
+		PecaCentral = &ComponentePai.blocos[ComponentePai.quantidade];
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);		
 		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 18.50f, 0.00f }, cor);
 		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 18.50f, 0.00f }, cor);
 	}
 	else {
 		// Caso algo dê errado na geração do número aleatório.
 		printf("\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas");
+		//numaleto = 0;
 	}
+	printf("\n Numaleto: %d", numaleto);
+	numaleto++;
 }
 
 static void DesenharCenario() {
@@ -276,63 +290,10 @@ static void DesenharCenario() {
 	}
 }
 
-static Vector3 RetornarPivo(ListaDeBlocos* lista) {
-	Vector3 pivo = { 0.0f, 0.0f, 0.0f };
-	if (lista == NULL || lista->quantidade == 0)return pivo;
-	float menorx = 10000.0f;
-	float maiorx = -10000.0f;
-	float menory = 10000.0f;
-	float maiory = -10000.0f;
-
-	for (uint16_t i = 0; i < lista->quantidade; i++) {
-		Bloco* bloco = &lista->blocos[i];
-		if (bloco->position.x < menorx) menorx = bloco->position.x;
-		if (bloco->position.x > maiorx) maiorx = bloco->position.x;
-		if (bloco->position.y < menory) menory = bloco->position.y;
-		if (bloco->position.y > maiory) maiory = bloco->position.y;
-	}
-
-	float resultado_x = (menorx - maiorx) / 2.0f;
-	float resultado_y = (menory - maiory) / 2.0f;
-	pivo.x = resultado_x;
-	pivo.y = resultado_y;
-
-	return pivo;
-}
-
-
-
-static void RotacionarLista(ListaDeBlocos* lista, int horario) {
-	if (lista == NULL || lista->quantidade == 0)return;
-	Vector3 pivo = RetornarPivo(lista);
-	for (uint16_t i = 0; i < lista->quantidade; i++) {
-
-		Bloco* bloco = &lista->blocos[i];
-		float relX = bloco->position.x - pivo.x;
-		float relY = bloco->position.y - pivo.y;
-		float novoX, novoY;
-		if (horario)
-		{
-			novoX = relY;
-			novoY = -relX;
-		}
-		else
-		{
-			novoX = -relY;
-			novoY = relX;
-		}
-		bloco->position.x = pivo.x + novoX;
-		bloco->position.y = pivo.y + novoY;
-	}
-}
-
-
-
-
 // --- Funções públicas ---
 
 void __QdBlocos__Iniciar() {
-
+	numaleto = 0;
 	MicroTempo = 100;
 	Tempo = 0;
 	AceleracaoPadrao = 1;
@@ -349,6 +310,13 @@ void __QdBlocos__Iniciar() {
 }
 
 void __QdBlocos__Passo() {
+	/*
+	-> BUG DO DELAY.
+	-> NÃO TEM BOOST NO MOVS LATERAIS.
+	*/
+
+	if (PecaCentral != NULL){PecaCentral->cor = RED;}
+	
 	DesenharBlocos(&ComponentePai);
 	DesenharBlocos(&ComponenteCenario);
 	ReflexaoDoComponentePai(&ComponentePai);
@@ -365,22 +333,24 @@ void __QdBlocos__Passo() {
 		ChamarUmPolimino();
 	}
 
+	// Tecla S
 	if (IsKeyUp(KEY_S)) {
 		Aceleracao = AceleracaoPadrao;
 		AtualizarTempo();
 	}
-
 	if (IsKeyPressed(KEY_S)) {
 		Aceleracao = AceleracaoPadrao * 20;
 		AtualizarTempo();
 	}
 
+	// Tecla A
 	if (IsKeyPressed(KEY_A)) {
 		if (!ColisaoEntreListaDeBlocosComImclemento(&ComponentePai, &ComponenteCenario, &incle_a)) {
 			AddVetor(&ComponentePai, incle_a);
 		}
 	}
 
+	// Tecla D
 	if (IsKeyPressed(KEY_D)) {
 		if (!ColisaoEntreListaDeBlocosComImclemento(&ComponentePai, &ComponenteCenario, &incle_d)) {
 			AddVetor(&ComponentePai, incle_d);
@@ -389,14 +359,16 @@ void __QdBlocos__Passo() {
 
 	if (IsKeyPressed(KEY_E)) {
 		printf("\n -----> ROTACIONAR Polimino  \n");
-		RotacionarLista(&ComponentePai, 1);
+		//RotacionarLista(&ComponentePai, 0);
 	}
 
-	if (Tempo == MicroTempo) {
+	if (Tempo == MicroTempo)
+	{
 		Tempo = 0;
 		ProxHorarioAtualizacao = InclementoDoHorario;
 	}
-	else {
+	else
+	{
 		Tempo++;
 	}
 }
