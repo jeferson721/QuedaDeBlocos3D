@@ -13,6 +13,20 @@ Bloco* PecaCentral;
 ListaDeBlocos ComponentePai;
 ListaDeBlocos ComponenteCenario;
 
+static int BlocosIguais(Bloco a, Bloco b)
+{
+	return !(
+		a.position.x == b.position.x &&
+		a.position.y == b.position.y &&
+		a.position.z == b.position.z &&
+
+		a.cor.r == b.cor.r &&
+		a.cor.g == b.cor.g &&
+		a.cor.b == b.cor.b &&
+		a.cor.a == b.cor.a
+		);
+}
+
 static int AdicionarBloco(ListaDeBlocos* lista, Vector3 posicao, Color cor) {
 	if (lista->quantidade >= _blocos_tam_max_)return 0;
 
@@ -206,7 +220,7 @@ static Color CorAleatoria()
 }
 
 static void ChamarUmPolimino(void) {
-	
+
 	//int numaleto = rand() % 7;
 	//Color cor = CorAleatoria();
 	Color cor = GRAY;
@@ -216,21 +230,21 @@ static void ChamarUmPolimino(void) {
 		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f }, cor);
 		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);
 		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 18.50f, 0.00f }, cor);
-		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 18.50f, 0.00f }, cor);		
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 18.50f, 0.00f }, cor);
 	}
 	else if (numaleto == 1) {
 		// I: quatro blocos em sequência
 		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f }, cor);
 		PecaCentral = &ComponentePai.blocos[ComponentePai.quantidade];
-		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);		
-		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 19.50f, 0.00f }, cor);		         
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 19.50f, 0.00f }, cor);
 		AdicionarBloco(&ComponentePai, (Vector3) { 3.00f, 19.50f, 0.00f }, cor);
 	}
 	else if (numaleto == 2) {
 		// T: uma sequência de três blocos com um adicionado ao abaixo do bloco central.
 		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f }, cor);
 		PecaCentral = &ComponentePai.blocos[ComponentePai.quantidade];
-		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);		
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);
 		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 19.50f, 0.00f }, cor);
 		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 18.50f, 0.00f }, cor);
 	}
@@ -238,7 +252,7 @@ static void ChamarUmPolimino(void) {
 		// J: uma sequência de três blocos, com um adicionado abaixo da extremidade direita.
 		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f }, cor);
 		PecaCentral = &ComponentePai.blocos[ComponentePai.quantidade];
-		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);		
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);
 		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 19.50f, 0.00f }, cor);
 		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 18.50f, 0.00f }, cor);
 	}
@@ -246,15 +260,15 @@ static void ChamarUmPolimino(void) {
 		// L: uma sequência de três blocos, com um adicionado abaixo da extremidade esquerda.
 		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f }, cor);
 		PecaCentral = &ComponentePai.blocos[ComponentePai.quantidade];
-		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);		
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);
 		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 19.50f, 0.00f }, cor);
 		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 18.50f, 0.00f }, cor);
 	}
 	else if (numaleto == 5) {
 		// S: duas sequências de dominós na horizontal, sendo o de cima deslocado para a direita.
 		PecaCentral = &ComponentePai.blocos[ComponentePai.quantidade];
-		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);		
-		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 19.50f, 0.00f }, cor);		
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);
+		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 19.50f, 0.00f }, cor);
 		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 18.50f, 0.00f }, cor);
 		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 18.50f, 0.00f }, cor);
 	}
@@ -262,7 +276,7 @@ static void ChamarUmPolimino(void) {
 		// Z: duas sequências de dominós na horizontal, sendo o de cima deslocado para a esquerda.
 		AdicionarBloco(&ComponentePai, (Vector3) { 0.0f, 19.50f, 0.00f }, cor);
 		PecaCentral = &ComponentePai.blocos[ComponentePai.quantidade];
-		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);		
+		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 19.50f, 0.00f }, cor);
 		AdicionarBloco(&ComponentePai, (Vector3) { 1.00f, 18.50f, 0.00f }, cor);
 		AdicionarBloco(&ComponentePai, (Vector3) { 2.00f, 18.50f, 0.00f }, cor);
 	}
@@ -287,6 +301,34 @@ static void DesenharCenario() {
 			posicaoBase.x += 1;
 		}
 		posicaoBase.y += 1;
+	}
+}
+
+static void Rotacionar(int sentido) {
+	if (PecaCentral == NULL || ComponentePai.quantidade == 0)return;
+
+	for (uint16_t i = 0; i < ComponentePai.quantidade; i++) {
+		Bloco comp = ComponentePai.blocos[i];
+		Bloco pec = *PecaCentral;
+		if (BlocosIguais(comp, pec))
+		{
+			Vector3 q_calc = Vector3Subtract(comp.position, pec.position);
+			Vector3 t_calc = { 0,0,0 };
+			if (sentido)
+			{
+				t_calc.x = q_calc.y;
+				t_calc.y = -q_calc.x;
+				t_calc.z = q_calc.z;
+			}
+			else
+			{
+				t_calc.x = -q_calc.y;
+				t_calc.y = q_calc.x;
+				t_calc.z = q_calc.z;
+			}
+			ComponentePai.blocos[i].position = Vector3Add(pec.position, t_calc);
+
+		}
 	}
 }
 
@@ -315,8 +357,8 @@ void __QdBlocos__Passo() {
 	-> NÃO TEM BOOST NO MOVS LATERAIS.
 	*/
 
-	if (PecaCentral != NULL){PecaCentral->cor = RED;}
-	
+	if (PecaCentral != NULL) { PecaCentral->cor = RED; }
+
 	DesenharBlocos(&ComponentePai);
 	DesenharBlocos(&ComponenteCenario);
 	ReflexaoDoComponentePai(&ComponentePai);
@@ -359,9 +401,10 @@ void __QdBlocos__Passo() {
 
 	if (IsKeyPressed(KEY_E)) {
 		printf("\n -----> ROTACIONAR Polimino  \n");
+		Rotacionar(1);
 		//RotacionarLista(&ComponentePai, 0);
 	}
-
+	
 	if (Tempo == MicroTempo)
 	{
 		Tempo = 0;
