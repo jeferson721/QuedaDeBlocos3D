@@ -6,7 +6,7 @@ int AceleracaoPadrao;
 int Aceleracao;
 int ProxHorarioAtualizacao;
 int InclementoDoHorario;
-int numaleto;
+//int numaleto;
 float DecrementoDeQueda;
 
 Bloco* PecaCentral;
@@ -221,9 +221,9 @@ static Color CorAleatoria()
 
 static void ChamarUmPolimino(void) {
 
-	//int numaleto = rand() % 7;
-	//Color cor = CorAleatoria();
-	Color cor = GRAY;
+	int numaleto = rand() % 7;
+	Color cor = CorAleatoria();
+	//Color cor = GRAY;
 	PecaCentral = NULL;
 	if (numaleto == 0) {
 		// O: quatro blocos formando um quadrado 2x2
@@ -285,8 +285,8 @@ static void ChamarUmPolimino(void) {
 		printf("\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas\n Erro na geracao das pecas");
 		//numaleto = 0;
 	}
-	printf("\n Numaleto: %d", numaleto);
-	numaleto++;
+	//printf("\n Numaleto: %d", numaleto);
+	//numaleto++;
 }
 
 static void DesenharCenario() {
@@ -335,7 +335,7 @@ static void Rotacionar(int sentido) {
 // --- Funções públicas ---
 
 void __QdBlocos__Iniciar() {
-	numaleto = 0;
+	//numaleto = 0;
 	MicroTempo = 100;
 	Tempo = 0;
 	AceleracaoPadrao = 1;
@@ -357,7 +357,7 @@ void __QdBlocos__Passo() {
 	-> NÃO TEM BOOST NO MOVS LATERAIS.
 	*/
 
-	if (PecaCentral != NULL) { PecaCentral->cor = RED; }
+	//if (PecaCentral != NULL) { PecaCentral->cor = RED; }
 
 	DesenharBlocos(&ComponentePai);
 	DesenharBlocos(&ComponenteCenario);
@@ -399,12 +399,11 @@ void __QdBlocos__Passo() {
 		}
 	}
 
-	if (IsKeyPressed(KEY_E)) {
-		printf("\n -----> ROTACIONAR Polimino  \n");
-		Rotacionar(1);
-		//RotacionarLista(&ComponentePai, 0);
-	}
-	
+	// Rotação
+	if (IsKeyPressed(KEY_E))Rotacionar(1);
+	if (IsKeyPressed(KEY_Q))Rotacionar(0);
+
+
 	if (Tempo == MicroTempo)
 	{
 		Tempo = 0;
